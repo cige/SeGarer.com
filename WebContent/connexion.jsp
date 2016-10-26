@@ -5,7 +5,7 @@
 	//check if the user is already logged
 	HttpSession userSession = request.getSession(false);
 	if(userSession != null && userSession.getAttribute("user") != null)
-		response.sendRedirect("main.html");
+		response.sendRedirect("main.jsp");
 	
 %>
 
@@ -22,7 +22,6 @@
 <meta name="author" content="">
 
 <link href="css/bootstrap.min.css" rel="stylesheet">
-<link href="css/main.css" rel="stylesheet">
 
 </head>
 <body>
@@ -54,7 +53,6 @@
 					</div>
 					<div class="form-group">
 						
-
 							<button class="btn btn-success" type="submit">Se
 								connecter</button> <a href="inscription.html" class="btn btn-danger">S'inscrire</a>
 					</div>

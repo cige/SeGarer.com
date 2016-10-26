@@ -13,6 +13,17 @@
 		<url-pattern>/helloWorld</url-pattern>
 	</servlet-mapping>
 	
+	<!-- Sign Up -->
+
+	<servlet>
+		<servlet-name>SignUpServlet</servlet-name>
+		<servlet-class>servlets.SignUpServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SignUpServlet</servlet-name>
+		<url-pattern>/signUp</url-pattern>
+	</servlet-mapping>
+	
 	<!-- Sign In -->
 
 	<servlet>

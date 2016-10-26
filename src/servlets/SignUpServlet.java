@@ -6,9 +6,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-public class SignInServlet extends HttpServlet {
+public class SignUpServlet extends HttpServlet {
 	
 	/**
 	 * 
@@ -18,12 +17,10 @@ public class SignInServlet extends HttpServlet {
 	@Override
 	public void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
 		
-		// TODO Check username/password ...
+		// TODO register the user
 		
-		Object user = new Object();
+		// TODO signup the user (or redirect to signup servlet)
 		
-		HttpSession session = request.getSession();
-		session.setAttribute("user", user);
 		response.sendRedirect("main.jsp");
 	}
 
