@@ -34,35 +34,35 @@
 						SeGarer.com <small>Une place, et vite !</small>
 					</h1>
 				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
 				<form class="form-inline" action="signIn" method="POST">
 					<div class="form-group">
 
-						<label for="inputEmail3" class="control-label">
-							Email </label>
-						
-							<input type="email" class="form-control" id="inputEmail3" />
-						
+						<label for="inputEmail3" class="control-label"> Email </label> <input
+							type="email" class="form-control" id="inputEmail3" />
+
 					</div>
 					<div class="form-group">
 
-						<label for="inputPassword3" class="control-label">
-							Mot de passe </label>
-						
-							<input type="password" class="form-control" id="inputPassword3" />
-						
+						<label for="inputPassword3" class="control-label"> Mot de
+							passe </label> <input type="password" class="form-control"
+							id="inputPassword3" />
+
 					</div>
 					<div class="form-group">
-						
-							<button class="btn btn-success" type="submit">Se
-								connecter</button> <a href="inscription.html" class="btn btn-danger">S'inscrire</a>
+						<button class="btn btn-success" type="submit">Se
+							connecter</button>
+						<a href="inscription.html" class="btn btn-danger">S'inscrire</a>
 					</div>
 				</form>
 			</div>
 		</div>
 	</div>
 
-	<script src="js/jquery-3.1.1.slim.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
+	<script src="js/jquery-3.1.1.min.js"></script>
 	<script src="js/main.js"></script>
 
 </body>
