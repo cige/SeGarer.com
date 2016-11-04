@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import model.entities.User;
+
 public class SignInServlet extends HttpServlet {
 
 	/**
@@ -18,9 +20,7 @@ public class SignInServlet extends HttpServlet {
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		// TODO Check username/password ...
-
-		Object user = new Object();
+		User user = new User();
 
 		HttpSession session = request.getSession();
 		session.setAttribute("user", user);

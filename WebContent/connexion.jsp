@@ -55,7 +55,7 @@
 					<div class="form-group">
 						<button class="btn btn-success" type="submit">Se
 							connecter</button>
-						<a href="inscription.html" class="btn btn-danger">S'inscrire</a>
+						<a href="register.html" class="btn btn-danger">S'inscrire</a>
 					</div>
 				</form>
 			</div>

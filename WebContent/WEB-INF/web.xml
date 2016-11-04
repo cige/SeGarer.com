@@ -37,6 +37,28 @@
 		<url-pattern>/signOut</url-pattern>
 	</servlet-mapping>
 	
+	<!-- Release Spot -->
+
+	<servlet>
+		<servlet-name>ReleaseSpotServlet</servlet-name>
+		<servlet-class>servlets.ReleaseSpotServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ReleaseSpotServlet</servlet-name>
+		<url-pattern>/release</url-pattern>
+	</servlet-mapping>
+	
+	<!-- Find Spots -->
+
+	<servlet>
+		<servlet-name>FindSpotsServlet</servlet-name>
+		<servlet-class>servlets.FindNearestSpotsServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>FindSpotsServlet</servlet-name>
+		<url-pattern>/find</url-pattern>
+	</servlet-mapping>
+	
 	<!-- Welcome page(s) -->
 
 	<welcome-file-list>
