@@ -8,8 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.TestsHibernate;
-import model.Vehicle;
+import model.dao.Dao;
+import model.dao.DaoFactory;
+import model.entities.Vehicle;
 
 /**
  * Servlet implementation class Hibernate
@@ -29,18 +30,10 @@ public class Hibernate extends HttpServlet {
 		v.setModel("Mercedes de merde!");
 		v.setSize(Vehicle.MEDIUM_SIZE);
 
-		TestsHibernate tb = new TestsHibernate();
-		tb.saveVehicle(v);
+		DaoFactory factory =new DaoFactory();
+		
+		factory.getVehicleDao().persist(v);
 		request.getServletContext().getRequestDispatcher("/test.jsp").forward(request, response);
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 	}
 
 }
