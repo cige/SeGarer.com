@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	Vehicule enregistré avec succès!!!
+	Vehicule enregistré avec succès!
 </body>
 </html>
