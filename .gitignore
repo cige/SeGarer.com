@@ -1,2 +1,3 @@
 /target/
 /WebContent/WEB-INF/classes/hibernate.cfg.xml
+*.class

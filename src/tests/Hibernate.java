@@ -30,7 +30,7 @@ public class Hibernate extends HttpServlet {
 		v.setModel("Mercedes de merde!");
 		v.setSize(Vehicle.MEDIUM_SIZE);
 
-		DaoFactory factory =new DaoFactory();
+		DaoFactory factory = DaoFactory.getInstance();
 		
 		factory.getVehicleDao().persist(v);
 		request.getServletContext().getRequestDispatcher("/test.jsp").forward(request, response);

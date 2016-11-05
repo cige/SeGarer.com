@@ -20,7 +20,7 @@ public class SignInServlet extends HttpServlet {
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		User user = new User();
+		User user = null;
 
 		HttpSession session = request.getSession();
 		session.setAttribute("user", user);

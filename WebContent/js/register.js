@@ -3,10 +3,15 @@ function signUp(){
 	var ok = true;
 	
 	var email = document.getElementById('email').value;
+	var pseudo = document.getElementById('pseudo').value;
 	var password = document.getElementById('password').value;
 	var password2 = document.getElementById('password2').value;
 	
 	if(email == ""){
+		ok = false;
+	}
+	
+	if(pseudo == ""){
 		ok = false;
 	}
 	
@@ -29,6 +34,7 @@ function signUp(){
 	
 	var data = {
 			email : email,
+			pseudo : pseudo,
 			password : password		
 	}
 	

@@ -17,8 +17,8 @@ public class DaoFactory {
 		return SINGLETON;
 	}
 
-	public Dao<User> getUserDao() {
-		return new Dao<User>();
+	public UserDao getUserDao() {
+		return UserDao.getInstance();
 	}
 
 	public Dao<Spot> getSpotDao() {

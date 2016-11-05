@@ -9,8 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 @Entity
 public class User {
@@ -19,8 +17,11 @@ public class User {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	
-	@Column
+	@Column(unique=true)
 	private String email;
+	
+	@Column
+	private String pseudo;
 	
 	@Column
 	private String password;
@@ -40,7 +41,14 @@ public class User {
 	private Spot aimedSpot;
 	
 	@Column(name="freed_spots")
-	private Long freedSpots;
+	private Long freedSpots=0L;
+	
+	public User(String email, String pseudo, String password){
+		this.email= email;
+		this.pseudo =pseudo;
+		this.password= password;
+		this.creationDate= new Timestamp(System.currentTimeMillis());
+	}
 	
 	public Long getId() {
 		return id;
@@ -97,4 +105,9 @@ public class User {
 	public Long getFreedSpots(){
 		return this.freedSpots;
 	}
+
+	public String getPseudo() {
+		return pseudo;
+	}
+	
 }
