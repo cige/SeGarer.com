@@ -29,7 +29,7 @@ public class Dao<T> {
 		session.getTransaction().commit();
 	}
 	
-	public T get(Class<T> objClass, int id){
+	public T get(Class<T> objClass, long id){
 		session.beginTransaction();
 		T entity =(T) session.get(objClass, id);
 		session.getTransaction().commit();

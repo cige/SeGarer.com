@@ -6,6 +6,16 @@ import model.entities.User;
 import model.entities.Vehicle;
 
 public class DaoFactory {
+	
+	private static DaoFactory SINGLETON = new DaoFactory();
+	
+	private DaoFactory(){
+		super();
+	}
+	
+	public static DaoFactory getInstance(){
+		return SINGLETON;
+	}
 
 	public Dao<User> getUserDao() {
 		return new Dao<User>();
