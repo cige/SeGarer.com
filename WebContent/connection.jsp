@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 
 <%
-	//check if the user is already logged
+	//check if the user is not already logged
 	HttpSession userSession = request.getSession(false);
 	if(userSession != null && userSession.getAttribute("user") != null)
 		response.sendRedirect("main.jsp");
@@ -38,32 +38,33 @@
 		</div>
 		<div class="row">
 			<div class="col-md-12">
-				<form class="form-inline" action="signIn" method="POST">
+				<div class="form-inline">
 					<div class="form-group">
 
-						<label for="inputEmail3" class="control-label"> Email </label> <input
-							type="email" class="form-control" id="inputEmail3" />
+						<label for="login" class="control-label">Identifiant ou E-mail </label> <input
+							type="text" class="form-control" id="login" />
 
 					</div>
 					<div class="form-group">
 
-						<label for="inputPassword3" class="control-label"> Mot de
+						<label for="password" class="control-label"> Mot de
 							passe </label> <input type="password" class="form-control"
-							id="inputPassword3" />
+							id="password" />
 
 					</div>
 					<div class="form-group">
-						<button class="btn btn-success" type="submit">Se
-							connecter</button>
-						<a href="register.html" class="btn btn-danger">S'inscrire</a>
+						<a onClick="signIn()" class="btn btn-success">Se
+							connecter</a>
+						<a href="register.jsp" class="btn btn-danger">S'inscrire</a>
 					</div>
-				</form>
+				</div>
 			</div>
 		</div>
 	</div>
 
 	<script src="js/jquery-3.1.1.min.js"></script>
-	<script src="js/main.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/connection.js"></script>
 
 </body>
 </html>

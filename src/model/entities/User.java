@@ -43,11 +43,16 @@ public class User {
 	@Column(name="freed_spots")
 	private Long freedSpots=0L;
 	
+	private User(){
+		super();
+	}
+	
 	public User(String email, String pseudo, String password){
 		this.email= email;
 		this.pseudo =pseudo;
 		this.password= password;
 		this.creationDate= new Timestamp(System.currentTimeMillis());
+		this.status = false;
 	}
 	
 	public Long getId() {

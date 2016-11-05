@@ -42,8 +42,15 @@ function signUp(){
 		window.location.replace("main.jsp");
 	}
 	
-	var error = function(){
-		alert('error');
+	var error = function(jqXHR,textStatus,errorThrown){
+		if(jqXHR.status == 498){
+			alert("cet email est deja utilise");
+			return;
+		}
+		if(jqXHR.status == 497){
+			alert("ce pseudo est deja utilise");
+			return;
+		}
 	}
 	
 	$.ajax({

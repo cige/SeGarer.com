@@ -30,13 +30,19 @@ public class SignUpServlet extends HttpServlet {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST);
 			return;
 		}
+		
+		//TODO check if the email is well formed
 
 
-		UserDao userDao= UserDao.getInstance();
+		UserDao userDao= DaoFactory.getInstance().getUserDao();
 
-		if(userDao.checkIfExists(pseudo, email)){
-			System.out.println("This User already exist!!!");
-			response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+		if(userDao.getUserFromEmail(email) != null){
+			response.sendError(HttpResponseCode.EMAIL_ALREADY_USED);
+			return;
+		}
+		
+		if(userDao.getUserFromPseudo(pseudo) != null){
+			response.sendError(HttpResponseCode.PSEUDO_ALREADY_USED);
 			return;
 		}
 
@@ -48,8 +54,13 @@ public class SignUpServlet extends HttpServlet {
 
 		userDao.persist(user);
 
+		// sign the user in
+		user.setStatus(true);
+		userDao.persist(user);
 		HttpSession session = request.getSession();
 		session.setAttribute("user", user);
+		
+		response.setStatus(HttpServletResponse.SC_ACCEPTED);
 		response.sendRedirect("main.jsp");
 	}
 

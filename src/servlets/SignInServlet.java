@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import model.dao.DaoFactory;
+import model.dao.UserDao;
 import model.entities.User;
 
 public class SignInServlet extends HttpServlet {
@@ -20,10 +22,42 @@ public class SignInServlet extends HttpServlet {
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		User user = null;
-
+		String login = request.getParameter("login");
+		String password = request.getParameter("password");
+		
+		if(login == null || password == null){
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+			return;
+		}
+		
+		UserDao userDao= DaoFactory.getInstance().getUserDao();
+		
+		// check if user exists
+		
+		User user = userDao.getUserFromLogin(login);
+		
+		if(user == null){
+			response.sendError(HttpResponseCode.INCORRECT_LOGIN);
+			return;
+		}
+		
+		// check password
+		
+		if(!user.getPassword().equals(password)){
+			response.sendError(HttpResponseCode.INCORRECT_PASSWORD);
+			return;
+		}
+		
+		
+		
+		// sign in 
+		
+		user.setStatus(true);
+		userDao.persist(user);
 		HttpSession session = request.getSession();
 		session.setAttribute("user", user);
+		
+		response.setStatus(HttpServletResponse.SC_ACCEPTED);
 		response.sendRedirect("main.jsp");
 	}
 

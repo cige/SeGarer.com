@@ -14,7 +14,7 @@ public class UserDao extends Dao<User> {
 		super();
 	}
 
-	public static UserDao getInstance(){
+	protected static UserDao getInstance(){
 		return SINGLETON;
 	}
 
@@ -38,6 +38,14 @@ public class UserDao extends Dao<User> {
 		if (!list.isEmpty())
 			return list.get(0);
 		return null;
+	}
+	
+	public User getUserFromLogin(String pseudoOrEmail){
+		User u1 = getUserFromEmail(pseudoOrEmail);
+		if(u1 != null)
+			return u1;
+		u1 = getUserFromPseudo(pseudoOrEmail);
+		return u1;
 	}
 
 	public boolean checkIfExists(String pseudo, String email){

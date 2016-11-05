@@ -5,7 +5,7 @@
 	//check if the user is well logged
 	HttpSession userSession = request.getSession(false);
 	if(userSession == null || userSession.getAttribute("user") == null){
-		response.sendRedirect("connexion.jsp");
+		response.sendRedirect("connection.jsp");
 	}
 	
 %>

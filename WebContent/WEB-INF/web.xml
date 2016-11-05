@@ -62,7 +62,7 @@
 	<!-- Welcome page(s) -->
 
 	<welcome-file-list>
-		<welcome-file>connexion.jsp</welcome-file>
+		<welcome-file>main.jsp</welcome-file>
 	</welcome-file-list>
 
 </web-app>
