@@ -1,3 +1,17 @@
+/** Spot object definition**/
+
+var Spot = function(longitude,latitude,address){
+	this.longitude = longitude;
+	this.latitude = latitude;
+	this.address = address;
+}
+
+/** Local variables **/
+
+var currentSpot;
+
+/** Other methods **/
+
 function logOut(){
 	window.location.replace("/DAR/signOut");
 }
@@ -11,12 +25,17 @@ function geolocalize(){
 	if(navigator.geolocation){
 		navigator.geolocation.getCurrentPosition(function(position)
 				{
+				currentSpot = new Spot(position.coords.latitude,position.coords.longitude);
+				var request = createRequestForReverseGeocoding(currentSpot.latitude,currentSpot.latitude);
+				console.log(request);
 				$.ajax({
-					url:createRequestForReverseGeocoding(position.coords.latitude,position.coords.longitude),
+					url:request,
 					type:"GET",
 					dataType:"json",
 					success:function(data){
-						$("#localisationInput").val(data.results[0].formatted_address);
+						console.log(data);
+						currentSpot.address = data.results[0].formatted_address;
+						$("#localisationInput").val(currentSpot.address);
 					}
 				})
 			
@@ -24,5 +43,25 @@ function geolocalize(){
 	}
 	else
 		alert("Votre navigateur ne prend pas en compte la géolocalisation");
+}
+
+function releaseSpot(){
+	
+	if(currentSpot == null)
+		currentSpot = new Spot(2,2,"55 rue issy");
+	
+	var success = function(jqXHR,textStatus,errorThrown){
+	}
+	
+	var error = function(jqXHR,textStatus,errorThrown){
+	}
+	
+	$.ajax({
+	       url : 'releaseSpot',
+	       type : 'POST',
+	       data : currentSpot,
+	       success : success,
+	       error: error
+	    });
 }
 

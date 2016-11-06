@@ -19,7 +19,7 @@ public class FindNearestSpotsServlet extends HttpServlet {
 	 */
 	private static final long serialVersionUID = -7643486180166520978L;
 	
-	private final static int RESULTS_NUMBER = 5;
+	private final static int RESULTS_NUMBER = 4;
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)

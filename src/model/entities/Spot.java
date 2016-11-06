@@ -27,7 +27,11 @@ public class Spot {
 	@Column(name="release_time")
 	private Timestamp releaseTime;
 	
+	
 	@Column
+	/**
+	 * true if the spot is free
+	 */
 	private boolean status;
 
 	@OneToOne
@@ -43,6 +47,18 @@ public class Spot {
 	
 	@OneToMany(mappedBy="aimedSpot")
 	private Set<User> interestedUsers;
+	
+	private Spot(){
+		super();
+	}
+	
+	public Spot(Address address,User originUser){
+		this.address = address;
+		this.releaseTime= new Timestamp(System.currentTimeMillis());
+		this.originUser = originUser;
+		this.status = true;
+		//TODO initialize size and horodator?
+	}
 	
 	public Long getId() {
 		return id;

@@ -45,7 +45,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>ReleaseSpotServlet</servlet-name>
-		<url-pattern>/release</url-pattern>
+		<url-pattern>/releaseSpot</url-pattern>
 	</servlet-mapping>
 	
 	<!-- Find Spots -->

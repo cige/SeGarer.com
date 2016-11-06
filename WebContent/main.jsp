@@ -38,7 +38,7 @@
 
 					<button type="button" class="btn btn-default">Trouver une
 						place</button>
-					<button type="button" class="btn btn-default">Libérer une
+					<button type="button" onClick="releaseSpot()" class="btn btn-default">Libérer une
 				place</button>
 				</form>
 			</div>

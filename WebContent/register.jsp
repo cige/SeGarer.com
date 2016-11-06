@@ -69,8 +69,7 @@
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-10">
-
-							<a onClick="signUp()" class="btn btn-danger">S'inscrire</a>
+							<button type="submit" onClick="signUp()" class="btn btn-danger">S'inscrire</button>
 						</div>
 					</div>
 				</form>

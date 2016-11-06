@@ -21,8 +21,8 @@ public class DaoFactory {
 		return UserDao.getInstance();
 	}
 
-	public Dao<Spot> getSpotDao() {
-		return new Dao<Spot>();
+	public SpotDao getSpotDao() {
+		return SpotDao.getInstance();
 	}
 
 	public Dao<Vehicle> getVehicleDao() {

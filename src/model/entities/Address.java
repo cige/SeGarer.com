@@ -14,6 +14,16 @@ public class Address {
 	
 	@Column
 	private Float latitude;
+	
+	private Address(){
+		super();
+	}
+	
+	public Address(Float longitude, Float latitude, String formattedAddress){
+		this.longitude = longitude; 
+		this.latitude = latitude; 
+		this.formattedAddress = formattedAddress;
+	}
 
 	public String getFormattedAddress() {
 		return formattedAddress;
