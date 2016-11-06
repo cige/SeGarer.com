@@ -3,7 +3,13 @@
 	xmlns="http://java.sun.com/xml/ns/javaee"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	version="3.0">
-	
+
+	<listener>
+		<listener-class>routine.QuartzListener</listener-class>
+	</listener>
+
+	<!-- SERVLET MAPPING -->
+
 	<!-- Sign Up -->
 
 	<servlet>
@@ -14,7 +20,7 @@
 		<servlet-name>SignUpServlet</servlet-name>
 		<url-pattern>/signUp</url-pattern>
 	</servlet-mapping>
-	
+
 	<!-- Sign In -->
 
 	<servlet>
@@ -36,7 +42,7 @@
 		<servlet-name>SignOutServlet</servlet-name>
 		<url-pattern>/signOut</url-pattern>
 	</servlet-mapping>
-	
+
 	<!-- Release Spot -->
 
 	<servlet>
@@ -47,7 +53,7 @@
 		<servlet-name>ReleaseSpotServlet</servlet-name>
 		<url-pattern>/releaseSpot</url-pattern>
 	</servlet-mapping>
-	
+
 	<!-- Find Spots -->
 
 	<servlet>
@@ -58,7 +64,7 @@
 		<servlet-name>FindSpotsServlet</servlet-name>
 		<url-pattern>/find</url-pattern>
 	</servlet-mapping>
-	
+
 	<!-- Welcome page(s) -->
 
 	<welcome-file-list>
