@@ -36,7 +36,7 @@
 				</div>
 			</div>
 		</div>
-		<form class="form row">
+		<div class="form row">
 			<div class="col-md-12">
 				<div class="form-inline">
 					<div class="form-group">
@@ -53,13 +53,13 @@
 
 					</div>
 					<div class="form-group">
-						<button type="submit" onClick="signIn()" class="btn btn-success">Se
-							connecter</button>
+						<a href="#" onClick="signIn()" type="submit" class="btn btn-success">Se
+							connecter</a>
 						<a href="register.jsp" class="btn btn-danger">S'inscrire</a>
 					</div>
 				</div>
 			</div>
-		</form>
+		</div>
 	</div>
 
 	<script src="js/jquery-3.1.1.min.js"></script>
