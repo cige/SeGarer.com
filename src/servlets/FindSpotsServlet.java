@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import model.dao.DaoFactory;
+import model.entities.Address;
 import model.entities.Spot;
 import model.entities.User;
 
@@ -44,12 +45,23 @@ public class FindSpotsServlet extends HttpServlet {
 			return;
 		}
 		
+		String longitude = req.getParameter("longitude");
+		String latitude = req.getParameter("latitude");
+		String formatedAddress = req.getParameter("address");
+		
+		if(longitude == null || latitude == null){
+			resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+			return;
+		}
+		
+		Spot userSpot = new Spot(new Address(new Float(longitude),new Float(latitude), formatedAddress), user);
+		
 		resp.setContentType("application/json");
 		
 		JsonObjectBuilder json = Json.createObjectBuilder();
 		JsonArrayBuilder spots = Json.createArrayBuilder();
 		
-		List<Spot> list = DaoFactory.getInstance().getSpotDao().findSpots(user, null, RESULTS_NUMBER);
+		List<Spot> list = DaoFactory.getInstance().getSpotDao().findSpots(user, userSpot, RESULTS_NUMBER);
 		
 		for(int i = 0; i< RESULTS_NUMBER && i<list.size(); i ++){
 			spots.add(list.get(i).toJson());

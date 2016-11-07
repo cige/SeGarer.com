@@ -30,7 +30,7 @@ function geolocalize(){
 	navigator.geolocation.getCurrentPosition(function(position)
 			{
 		currentSpot = new Spot(position.coords.latitude,position.coords.longitude);
-		var request = createRequestForReverseGeocoding(currentSpot.latitude,currentSpot.latitude);
+		var request = createRequestForReverseGeocoding(currentSpot.longitude,currentSpot.latitude);
 		console.log(request);
 		$.ajax({
 			url:request,
@@ -52,8 +52,10 @@ function geolocalize(){
 
 function releaseSpot(){
 
-	if(currentSpot == null)
-		currentSpot = new Spot(2,2,"55 rue issy");
+	if(currentSpot == null){
+		alert('veuillez saisir votre position');
+		return;
+	}
 
 	var success = function(jqXHR,textStatus,errorThrown){
 	}
@@ -75,8 +77,8 @@ function findSpots(){
 	if(currentSpot == null)
 		currentSpot = new Spot(2,2,"55 rue issy");
 
-	var success = function(jqXHR,textStatus,errorThrown){
-		alert('success');
+	var success = function(data){
+		alert(data);
 	}
 
 	var error = function(jqXHR,textStatus,errorThrown){

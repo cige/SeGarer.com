@@ -3,6 +3,8 @@ package model.dao;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.hibernate.Query;
+
 import model.entities.Address;
 import model.entities.Spot;
 import model.entities.User;
@@ -23,15 +25,14 @@ public class SpotDao extends Dao<Spot> {
 	 * Return a list with at most n spots.
 	 */
 	public List<Spot> findSpots(User currentUser,Spot currentSpot,int n){
-		 
-		//TODO  
-		List<Spot> spots = new LinkedList<>();
 		
-		for(int i = 0; i<n ; i++){
-			spots.add(new Spot(new Address(new Float(Math.random()), new Float(Math.random()), "address"), currentUser));
-		}
+		session.beginTransaction();
+		Query query = session.createQuery("From Spot s");
+		query.setMaxResults(n);
+		List<Spot> list =query.list();
+		session.getTransaction().commit();
 		
-		return spots;
+		return list;
 	}
 
 }

@@ -21,8 +21,9 @@ public class CreateSpotsJob implements Job {
 		
 		//TODO amine longitude,latitude inside PARIS
 		
-		float maxLong=3, minLong= 1;
-		float maxLat = 3, minLat = 1;
+		float maxLong= 48.902833f;
+		float minLong= 48.815458f;
+		float maxLat = 2.416780f, minLat = 2.245080f;
 		
 		Float longitude = new Float(((maxLong-minLong)*Math.random())+minLong);
 		Float latitude = new Float(((maxLat-minLat)*Math.random())+minLat);
