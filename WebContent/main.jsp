@@ -36,7 +36,7 @@
 						<span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span>
 					</button>
 
-					<button type="button" class="btn btn-default">Trouver une
+					<button type="button" onClick="findSpots()" class="btn btn-default">Trouver une
 						place</button>
 					<button type="button" onClick="releaseSpot()" class="btn btn-default">Libérer une
 				place</button>

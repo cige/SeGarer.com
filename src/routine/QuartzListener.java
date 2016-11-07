@@ -22,11 +22,13 @@ implements ServletContextListener{
 
 
 		try {
-			// Setup the Job class and the Job group
-			JobDetail job = JobBuilder.newJob(PurgeSpotsJob.class).withIdentity(
-					"CronQuartzJob", "Group").build();
+			
+			JobDetail purgeJob = JobBuilder.newJob(PurgeSpotsJob.class).withIdentity(
+					"PurgeJob", "Group").build();
+			
+			JobDetail createSpotJob = JobBuilder.newJob(CreateSpotsJob.class).withIdentity(
+					"CreateJob", "Group").build();
 
-			// Trigger the job to run now, and then repeat every 40 seconds
 			Trigger trigger = TriggerBuilder.newTrigger()
 					.withIdentity("trigger1", "group1")
 					.startNow()
@@ -34,12 +36,22 @@ implements ServletContextListener{
 							.withIntervalInSeconds(40)
 							.repeatForever())            
 							.build();
+			
+			Trigger trigger2 = TriggerBuilder.newTrigger()
+					.withIdentity("trigger2", "group2")
+					.startNow()
+					.withSchedule(SimpleScheduleBuilder.simpleSchedule()
+							.withIntervalInMilliseconds(500)
+							.repeatForever())            
+							.build();
 
 
 			// Setup the Job and Trigger with Scheduler & schedule jobs
 			scheduler = new StdSchedulerFactory().getScheduler();
 			scheduler.start();
-			scheduler.scheduleJob(job, trigger);
+			scheduler.scheduleJob(purgeJob, trigger);
+			scheduler.scheduleJob(createSpotJob, trigger2);
+			
 		}
 		catch (Exception e) {
 			e.printStackTrace();

@@ -23,7 +23,7 @@ function createRequestForReverseGeocoding(lat,lon){
 
 function geolocalize(){
 	if(!navigator.geolocation){
-		alert("Votre navigateur ne prend pas en compte la géolocalisation");
+		alert("Votre navigateur ne permet pas la géolocalisation");
 		return;
 	}
 
@@ -64,6 +64,28 @@ function releaseSpot(){
 	$.ajax({
 		url : 'releaseSpot',
 		type : 'POST',
+		data : currentSpot,
+		success : success,
+		error: error
+	});
+}
+
+function findSpots(){
+
+	if(currentSpot == null)
+		currentSpot = new Spot(2,2,"55 rue issy");
+
+	var success = function(jqXHR,textStatus,errorThrown){
+		alert('success');
+	}
+
+	var error = function(jqXHR,textStatus,errorThrown){
+		alert('error');
+	}
+
+	$.ajax({
+		url : 'find',
+		type : 'GET',
 		data : currentSpot,
 		success : success,
 		error: error
