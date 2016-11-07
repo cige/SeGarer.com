@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -12,7 +13,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class FindNearestSpotsServlet extends HttpServlet {
+import model.dao.DaoFactory;
+import model.entities.Spot;
+import model.entities.User;
+
+public class FindSpotsServlet extends HttpServlet {
 
 	/**
 	 * 
@@ -32,7 +37,7 @@ public class FindNearestSpotsServlet extends HttpServlet {
 			return;
 		}
 		
-		Object user = session.getAttribute("user");
+		User user = (User) session.getAttribute("user");
 		
 		if(user == null){
 			resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
@@ -44,8 +49,10 @@ public class FindNearestSpotsServlet extends HttpServlet {
 		JsonObjectBuilder json = Json.createObjectBuilder();
 		JsonArrayBuilder spots = Json.createArrayBuilder();
 		
-		for(int i = 0; i< RESULTS_NUMBER; i ++){
-			spots.add(i);
+		List<Spot> list = DaoFactory.getInstance().getSpotDao().findSpots(user, null, RESULTS_NUMBER);
+		
+		for(int i = 0; i< RESULTS_NUMBER && i<list.size(); i ++){
+			spots.add(list.get(i).toJson());
 		}
 		
 		json.add("result", spots);

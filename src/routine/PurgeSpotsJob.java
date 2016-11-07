@@ -5,7 +5,9 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.Scheduler;
 
-public class PurgeTooOldSpotJob implements Job {
+public class PurgeSpotsJob implements Job {
+	
+	private final static int TIME_THRESHOLD = 15;
 	
 	private Scheduler scheduler = null;
 

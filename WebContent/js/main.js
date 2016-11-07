@@ -38,6 +38,10 @@ function geolocalize(){
 			dataType:"json",
 			success:function(data){
 				console.log(data);
+				if(data.results.length == 0){
+					$("#localisationInput").val(currentSpot.longitude+","+currentSpot.latitude);
+					return;
+				}
 				currentSpot.address = data.results[0].formatted_address;
 				$("#localisationInput").val(currentSpot.address);
 			}

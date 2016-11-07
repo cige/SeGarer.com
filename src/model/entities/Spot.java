@@ -3,6 +3,9 @@ package model.entities;
 import java.sql.Timestamp;
 import java.util.Set;
 
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -118,5 +121,15 @@ public class Spot {
 	
 	public int getInterestedUsersNumber(){
 		return this.interestedUsers.size();
+	}
+	
+	public JsonObject toJson(){
+		JsonObjectBuilder resBuilder = Json.createObjectBuilder();
+		
+		resBuilder.add("longitude", this.address.getLongitude());
+		resBuilder.add("latitude", this.address.getLatitude());
+		resBuilder.add("address", this.address.getFormattedAddress());
+		
+		return resBuilder.build();
 	}
 }

@@ -58,7 +58,7 @@
 
 	<servlet>
 		<servlet-name>FindSpotsServlet</servlet-name>
-		<servlet-class>servlets.FindNearestSpotsServlet</servlet-class>
+		<servlet-class>servlets.FindSpotsServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>FindSpotsServlet</servlet-name>

@@ -23,7 +23,7 @@ implements ServletContextListener{
 
 		try {
 			// Setup the Job class and the Job group
-			JobDetail job = JobBuilder.newJob(PurgeTooOldSpotJob.class).withIdentity(
+			JobDetail job = JobBuilder.newJob(PurgeSpotsJob.class).withIdentity(
 					"CronQuartzJob", "Group").build();
 
 			// Trigger the job to run now, and then repeat every 40 seconds
@@ -50,7 +50,7 @@ implements ServletContextListener{
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
 		try {
-			//scheduler.shutdown();
+			scheduler.shutdown();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
