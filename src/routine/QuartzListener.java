@@ -12,6 +12,8 @@ import org.quartz.impl.StdSchedulerFactory;
 
 public class QuartzListener
 implements ServletContextListener{
+	
+	private final static boolean enableBots = false;
 
 	Scheduler scheduler = null;
 
@@ -50,7 +52,9 @@ implements ServletContextListener{
 			scheduler = new StdSchedulerFactory().getScheduler();
 			scheduler.start();
 			scheduler.scheduleJob(purgeJob, trigger);
-			scheduler.scheduleJob(createSpotJob, trigger2);
+			
+			if(enableBots)
+				scheduler.scheduleJob(createSpotJob, trigger2);
 			
 		}
 		catch (Exception e) {
