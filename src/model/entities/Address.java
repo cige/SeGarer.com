@@ -5,23 +5,23 @@ import javax.persistence.Embeddable;
 
 @Embeddable
 public class Address {
-	
-	@Column(name="formatted_address")
+
+	@Column(name = "formatted_address")
 	private String formattedAddress;
-	
+
 	@Column
-	private Float longitude;
-	
+	private Double longitude;
+
 	@Column
-	private Float latitude;
-	
-	private Address(){
-		super();
+	private Double latitude;
+
+	private Address() {
+
 	}
-	
-	public Address(Float longitude, Float latitude, String formattedAddress){
-		this.longitude = longitude; 
-		this.latitude = latitude; 
+
+	public Address(Double longitude, Double latitude, String formattedAddress) {
+		this.longitude = longitude;
+		this.latitude = latitude;
 		this.formattedAddress = formattedAddress;
 	}
 
@@ -33,19 +33,19 @@ public class Address {
 		this.formattedAddress = formattedAddress;
 	}
 
-	public Float getLongitude() {
+	public Double getLongitude() {
 		return longitude;
 	}
 
-	public void setLongitude(Float longitude) {
+	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
 	}
 
-	public Float getLatitude() {
+	public Double getLatitude() {
 		return latitude;
 	}
 
-	public void setLatitude(Float latitude) {
+	public void setLatitude(Double latitude) {
 		this.latitude = latitude;
 	}
 
