@@ -1,12 +1,12 @@
 package model.entities;
 
 import java.sql.Timestamp;
-import java.time.Period;
 import java.util.Set;
 
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -37,18 +37,18 @@ public class Spot {
 	 */
 	private boolean isFree;
 
-	@OneToOne
+	@OneToOne(cascade=CascadeType.PERSIST)
 	@JoinColumn(name = "origin_user")
 	private User originUser;
 
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.PERSIST)
 	@JoinColumn(name = "id_horodator")
 	private Horodator horodator;
 
 	@Column(name = "vehicle_size")
 	private Integer size;
 
-	@OneToMany(mappedBy = "aimedSpot")
+	@OneToMany(mappedBy = "aimedSpot", cascade=CascadeType.PERSIST)
 	private Set<User> interestedUsers;
 
 	private Spot() {

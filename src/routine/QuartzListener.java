@@ -43,7 +43,7 @@ implements ServletContextListener{
 					.withIdentity("trigger2", "group2")
 					.startNow()
 					.withSchedule(SimpleScheduleBuilder.simpleSchedule()
-							.withIntervalInMilliseconds(1000)
+							.withIntervalInMilliseconds(1000*60)
 							.repeatForever())            
 							.build();
 

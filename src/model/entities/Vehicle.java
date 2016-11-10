@@ -11,7 +11,7 @@ public class Vehicle {
 	public static final int SMALL_SIZE = 1;
 	public static final int MEDIUM_SIZE = 2;
 	public static final int LARGE_SIZE = 3;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
@@ -21,6 +21,11 @@ public class Vehicle {
 
 	@Column
 	private Integer size;
+
+	public Vehicle(String model, int size) {
+		this.model = model;
+		this.size = size;
+	}
 
 	public Long getId() {
 		return id;
