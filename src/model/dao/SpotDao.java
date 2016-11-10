@@ -49,4 +49,10 @@ public class SpotDao extends Dao<Spot> {
 		return (Spot) query.uniqueResult();
 	}
 
+	public void purgeAll(List<Spot> spots) {
+		session.beginTransaction();
+		spots.forEach(p -> session.delete(p));
+		session.getTransaction().commit();
+	}
+
 }

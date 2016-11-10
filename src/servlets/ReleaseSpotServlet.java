@@ -48,16 +48,14 @@ public class ReleaseSpotServlet extends HttpServlet {
 		SpotDao spotDao = DaoFactory.getInstance().getSpotDao();
 
 		Spot spot = spotDao.findSpotByAddress(address);
+		
 		if (spot == null)
 			spot = new Spot(address);
 		spot.setOriginUser(user);
 		spot.setFree(true);
 		spotDao.persist(spot);
 
-		boolean success = true;
-		session.setAttribute("release", success);
 		resp.setStatus(HttpServletResponse.SC_ACCEPTED);
-		req.getServletContext().getRequestDispatcher(VIEW_SUCCESS).forward(req, resp);
 	}
 
 }
