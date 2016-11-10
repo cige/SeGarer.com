@@ -1,3 +1,8 @@
+/** Global variables **/
+
+var currentSpot = null;
+var closestSpots = null;
+
 /** Banners **/
 
 var getBannerFromSpot = function(spot){
@@ -12,7 +17,7 @@ var getBannerFromSpot = function(spot){
 	res += "<span class='glyphicon glyphicon glyphicon-road' aria-hidden='true'></span>";
 	res += "-- min (-,-km)";
 	res += "</div><div class='col-xs-4'><button type='button' class='btn btn-info pull-right'>";
-	res += "J'y fonce !</button></div></div></div>";
+	res += "J'y fonce !<span class='badge'>"+spot.intersted+"</span></button></div></div></div>";
 	return res;
 }
 
@@ -30,30 +35,15 @@ var getNoResultBanner = function(){
 	res += "Malheureusement, nous n'avons trouvé aucune place près de vous...";
 	res += "</div>";
 	res +=	"<div class='col-xs-3'>";
-	res +="<button onClick='findSpots()'type='button' class='btn btn-danger pull-right'>";
+	res +="<button id='searchAgainButton' type='button' class='btn btn-danger pull-right'>";
 	res += "Relancer</button></div>";
 	res +="</div>";
 	res +="</div>";
 	return res;
 }
 
-/** Local variables **/
-
-var currentSpot = null;
-var closestSpots = null;
-
-/** Other methods **/
-
-function logOut(){
-	window.location.replace("/DAR/signOut");
-}
-
-function createRequestForReverseGeocoding(lat,lon){
-	return "https://maps.googleapis.com/maps/api/geocode/json?latlng="+lat+","+lon+"&key=AIzaSyDaDyG8ylVLCq-sjdbLeBn07LtN81zWETo";
-
-}
-
 function updateBannerContainer(){
+
 	var container = $("#banner-container");
 	container.empty();
 
@@ -76,7 +66,34 @@ function updateBannerContainer(){
 
 }
 
+/**
+ * Buttons
+ */
+
+function setButtonOnClick(buttonId,fun){
+	$(buttonId).on('click',function() {
+	    var btn = $(this);
+	    alert(btn);
+	    btn.attr("data-loading-text","<i class='fa fa-spinner fa-spin'></i>");
+	    btn.button('loading');
+	    fun();
+	    btn.button('reset');
+	});
+}
+
+/** Other methods **/
+
+function logOut(){
+	window.location.replace("/DAR/signOut");
+}
+
+function createRequestForReverseGeocoding(lat,lon){
+	return "https://maps.googleapis.com/maps/api/geocode/json?latlng="+lat+","+lon+"&key=AIzaSyDaDyG8ylVLCq-sjdbLeBn07LtN81zWETo";
+
+}
+
 function geolocalize(){
+	console.log('geoloc');
 	if(!navigator.geolocation){
 		alert("Votre navigateur ne permet pas la géolocalisation");
 		return;
@@ -155,4 +172,9 @@ function findSpots(){
 		error: error
 	});
 }
+
+setButtonOnClick('#geolocalizeButton',geolocalize);
+setButtonOnClick("#releaseSpotButton",releaseSpot);
+setButtonOnClick("#searchAgainButton",findSpots);
+
 

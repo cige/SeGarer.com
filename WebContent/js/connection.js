@@ -1,7 +1,14 @@
+$('#signInButton').on('click',function() {
+    var $btn = $(this);
+    $btn.button('loading');
+    signIn();
+    $btn.button('reset');
+});
+
 function signIn(){
 
 	var ok = true;
-
+				
 	var login = document.getElementById('login').value;
 	var password = document.getElementById('password').value;
 
@@ -28,19 +35,19 @@ function signIn(){
 	}
 
 	var error = function(jqXHR,textStatus,errorThrown){
-		
+
 		if(jqXHR.status == 496){
 			alert("mot de passe incorrect");
 			return;
 		}
-		
+
 		if(jqXHR.status == 495){
 			alert("login incorrect");
 			return;
 		}
-		
+
 		alert('error: ' + jqXHR.status);
-		
+
 	}
 
 	$.ajax({

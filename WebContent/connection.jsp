@@ -27,6 +27,7 @@
 	href="https://fonts.googleapis.com/css?family=Raleway">
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="css/main.css" rel="stylesheet">
+<link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
 </head>
 <body>
@@ -57,7 +58,7 @@
 
 					</div>
 					<div class="form-group">
-						<a href="#" onClick="signIn()" type="submit"
+						<a id="signInButton" href="#" type="button" data-loading-text="<i class='fa fa-spinner fa-spin'></i>"
 							class="btn btn-success">Se connecter</a> <a href="register.jsp"
 							class="btn btn-danger">S'inscrire</a>
 					</div>
@@ -67,6 +68,7 @@
 	</div>
 
 	<script src="js/jquery-3.1.1.min.js"></script>
+	<script src="bootstrap/js/bootstrap.min.js"></script>
 	<script src="js/connection.js"></script>
 
 </body>

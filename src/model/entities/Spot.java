@@ -140,6 +140,7 @@ public class Spot {
 		resBuilder.add("user", this.originUser.getPseudo());
 		int minute = new Timestamp(System.currentTimeMillis() - this.releaseTime.getTime()).getMinutes();
 		resBuilder.add("time",minute );
+		resBuilder.add("intersted", interestedUsers.size());
 
 		return resBuilder.build();
 	}
