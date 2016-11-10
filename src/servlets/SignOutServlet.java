@@ -33,7 +33,7 @@ public class SignOutServlet extends HttpServlet {
 			}
 			session.invalidate();
 		}
-		response.sendRedirect("connexion.jsp");
+		response.sendRedirect("connection.jsp");
 	}
 
 }

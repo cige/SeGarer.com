@@ -20,7 +20,12 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<link href="css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css"
+	href="https://fonts.googleapis.com/css?family=Lobster">
+<link rel="stylesheet" type="text/css"
+	href="https://fonts.googleapis.com/css?family=Raleway">
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="css/main.css" rel="stylesheet">
 
 </head>
 <body>
@@ -78,7 +83,6 @@
 	</div>
 
 	<script src="js/jquery-3.1.1.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
 	<script src="js/register.js"></script>
 </body>
 </html>
