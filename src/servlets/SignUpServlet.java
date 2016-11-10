@@ -58,10 +58,8 @@ public class SignUpServlet extends HttpServlet {
 		user.setStatus(true);
 		userDao.persist(user);
 		HttpSession session = request.getSession();
-		session.setAttribute("user", user);
-		
+		session.setAttribute("user", user);	
 		response.setStatus(HttpServletResponse.SC_ACCEPTED);
-		response.sendRedirect("main.jsp");
 	}
 
 }

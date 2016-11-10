@@ -98,7 +98,8 @@
 							aria-hidden="true"></span> 20 min (3,5km)
 					</div>
 					<div class="col-xs-4">
-						<button type="button" class="btn btn-info pull-right">J'y fonce !</button>
+						<button type="button" class="btn btn-info pull-right">J'y
+							fonce !</button>
 					</div>
 				</div>
 			</div>
@@ -106,19 +107,21 @@
 			<div
 				class="list-group-item list-group-item-warning banner banner-release">
 				<div class="row">
-				<div class="col-xs-12">
-				Vous quittez une place de stationnement ? Faites en profiter la communauté !
+					<div class="col-xs-12">
+						Vous quittez une place de stationnement ? Faites en profiter la
+						communauté !
+						<button type="button" class="btn btn-warning pull-right"
+							onClick="geolocalize()">Libérer ma place</button>
+					</div>
+
+
 				</div>
-				<button type="button" class="btn btn-warning pull-right"
-					onClick="geolocalize()">Libérer ma place</button>
 
 			</div>
-
 		</div>
-	</div>
 
-	<script src="js/jquery-3.1.1.min.js"></script>
-	<script src="bootstrap/js/bootstrap.min.js"></script>
-	<script src="js/main.js"></script>
+		<script src="js/jquery-3.1.1.min.js"></script>
+		<script src="bootstrap/js/bootstrap.min.js"></script>
+		<script src="js/main.js"></script>
 </body>
 </html>
