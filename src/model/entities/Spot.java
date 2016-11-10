@@ -21,55 +21,69 @@ import javax.persistence.OneToOne;
 public class Spot {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
 	@Embedded
 	private Address address;
-	
-	@Column(name="release_time")
+
+	@Column(name = "release_time")
 	private Timestamp releaseTime;
-	
-	
+
 	@Column
 	/**
 	 * true if the spot is free
 	 */
-	private boolean status;
+	private boolean isFree;
 
 	@OneToOne
-	@JoinColumn(name="origin_user")
+	@JoinColumn(name = "origin_user")
 	private User originUser;
-	
+
 	@ManyToOne
-	@JoinColumn(name="id_horodator")
+	@JoinColumn(name = "id_horodator")
 	private Horodator horodator;
-	
-	@Column(name="vehicle_size")
+
+	@Column(name = "vehicle_size")
 	private Integer size;
-	
-	@OneToMany(mappedBy="aimedSpot")
+
+	@OneToMany(mappedBy = "aimedSpot")
 	private Set<User> interestedUsers;
-	
-	private Spot(){
+
+	private Spot() {
 		super();
 	}
-	
-	public Spot(Address address,User originUser){
+
+	public Spot(Address address, User originUser) {
 		this.address = address;
-		this.releaseTime= new Timestamp(System.currentTimeMillis());
+		this.releaseTime = new Timestamp(System.currentTimeMillis());
 		this.originUser = originUser;
-		this.status = true;
-		//TODO initialize size and horodator?
+		this.isFree = true;
+		// TODO initialize size and horodator?
 	}
-	
+
+	public Spot(Address address) {
+		this.address = address;
+		this.releaseTime = new Timestamp(System.currentTimeMillis());
+		this.isFree = true;
+		// TODO initialize size and horodator?
+	}
+
 	public Long getId() {
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
-	}	
+	}
+
+	public boolean isFree() {
+		return isFree;
+	}
+
+	public void setFree(boolean isFree) {
+		this.isFree = isFree;
+	}
 
 	public Address getAddress() {
 		return address;
@@ -87,14 +101,6 @@ public class Spot {
 		this.releaseTime = releaseTime;
 	}
 
-	public boolean isStatus() {
-		return status;
-	}
-
-	public void setStatus(boolean status) {
-		this.status = status;
-	}
-	
 	public Horodator getHorodator() {
 		return horodator;
 	}
@@ -118,18 +124,18 @@ public class Spot {
 	public void setSize(Integer size) {
 		this.size = size;
 	}
-	
-	public int getInterestedUsersNumber(){
+
+	public int getInterestedUsersNumber() {
 		return this.interestedUsers.size();
 	}
-	
-	public JsonObject toJson(){
+
+	public JsonObject toJson() {
 		JsonObjectBuilder resBuilder = Json.createObjectBuilder();
-		
+
 		resBuilder.add("longitude", this.address.getLongitude());
 		resBuilder.add("latitude", this.address.getLatitude());
 		resBuilder.add("address", this.address.getFormattedAddress());
-		
+
 		return resBuilder.build();
 	}
 }

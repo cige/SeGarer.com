@@ -60,7 +60,7 @@ public class FindSpotsServlet extends HttpServlet {
 		JsonObjectBuilder json = Json.createObjectBuilder();
 		JsonArrayBuilder spots = Json.createArrayBuilder();
 
-		List<Spot> list = DaoFactory.getInstance().getSpotDao().findClosestSpostsf(currentPos, RESULTS_NUMBER);
+		List<Spot> list = DaoFactory.getInstance().getSpotDao().findClosestSposts(currentPos, RESULTS_NUMBER);
 
 		for (int i = 0; i < RESULTS_NUMBER && i < list.size(); i++) {
 			spots.add(list.get(i).toJson());

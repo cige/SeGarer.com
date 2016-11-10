@@ -9,11 +9,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import model.dao.DaoFactory;
+import model.dao.SpotDao;
 import model.entities.Address;
 import model.entities.Spot;
 import model.entities.User;
 
 public class ReleaseSpotServlet extends HttpServlet {
+	public static final String VIEW_SUCCESS = "/main.jsp";
 
 	/**
 	 * 
@@ -43,10 +45,15 @@ public class ReleaseSpotServlet extends HttpServlet {
 
 		Address address = new Address(Double.valueOf(longitude), Double.valueOf(latitude), formatedAddress);
 
-		Spot spot = new Spot(address, user);
-		spot.setStatus(false);
+		SpotDao spotDao = DaoFactory.getInstance().getSpotDao();
+
+		Spot spot = spotDao.findSpotByAddress(address);
 		
-		DaoFactory.getInstance().getSpotDao().persist(spot);
+		if (spot == null)
+			spot = new Spot(address);
+		spot.setOriginUser(user);
+		spot.setFree(true);
+		spotDao.persist(spot);
 
 		resp.setStatus(HttpServletResponse.SC_ACCEPTED);
 	}
