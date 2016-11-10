@@ -29,7 +29,7 @@ public class SignOutServlet extends HttpServlet {
 			if(user!= null){
 				UserDao userDao = DaoFactory.getInstance().getUserDao();
 				user.setStatus(false);
-				userDao.persist(user);
+				userDao.save(user);
 			}
 			session.invalidate();
 		}

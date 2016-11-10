@@ -50,11 +50,11 @@ public class SignUpServlet extends HttpServlet {
 
 		// Push it in DB
 
-		userDao.persist(user);
+		userDao.save(user);
 
 		// sign the user in
 		user.setStatus(true);
-		userDao.persist(user);
+		userDao.save(user);
 		HttpSession session = request.getSession();
 		session.setAttribute("user", user);
 		response.setStatus(HttpServletResponse.SC_ACCEPTED);

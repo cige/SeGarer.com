@@ -53,7 +53,7 @@ public class ReleaseSpotServlet extends HttpServlet {
 			spot = new Spot(address);
 		spot.setOriginUser(user);
 		spot.setFree(true);
-		spotDao.persist(spot);
+		spotDao.save(spot);
 
 		resp.setStatus(HttpServletResponse.SC_ACCEPTED);
 	}

@@ -1,10 +1,18 @@
 package model.dao;
 
+import java.util.Random;
+
 import org.hibernate.Query;
 
 import model.entities.User;
+import model.entities.Vehicle;
 
 public class UserDao extends Dao<User> {
+
+	public static final String BASE_DOMAINE = "@stl.upmc.fr";
+	public static final String BASE_LOGIN = "student";
+	public static final String BASE_PASSWORD = "student";
+	public static final Vehicle COMMON_CAR = new Vehicle("AUDI for Students", Vehicle.MEDIUM_SIZE);
 
 	private final static UserDao SINGLETON = new UserDao();
 
@@ -42,4 +50,13 @@ public class UserDao extends Dao<User> {
 		return false;
 	}
 
+	public User makeRandomUser() {
+		Random rand = new Random();
+		int id = rand.nextInt(100);
+		String login = BASE_LOGIN + id;
+		String email = login + BASE_DOMAINE;
+		User user = new User(email, login, BASE_PASSWORD);
+		user.setVehicle(COMMON_CAR);
+		return user;
+	}
 }

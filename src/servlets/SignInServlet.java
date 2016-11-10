@@ -53,7 +53,7 @@ public class SignInServlet extends HttpServlet {
 		// sign in 
 		
 		user.setStatus(true);
-		userDao.persist(user);
+		userDao.save(user);
 		HttpSession session = request.getSession();
 		session.setAttribute("user", user);
 		

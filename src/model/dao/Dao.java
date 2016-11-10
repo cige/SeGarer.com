@@ -2,11 +2,14 @@ package model.dao;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
+
+import model.entities.Vehicle;
 
 public class Dao<T> {
 
@@ -20,9 +23,9 @@ public class Dao<T> {
 		session = sessionFactory.openSession();
 	}
 
-	public void persist(T entity) {
+	public void save(T entity) {
 		session.beginTransaction();
-		session.save(entity);
+		session.persist(entity);
 		session.getTransaction().commit();
 	}
 
@@ -32,7 +35,6 @@ public class Dao<T> {
 	}
 
 	public List<T> findAll(Class<T> objClass) {
-
 		return session.createQuery("from " + objClass.getName()).list();
 
 	}
@@ -42,4 +44,11 @@ public class Dao<T> {
 		session.delete(entity);
 		session.getTransaction().commit();
 	}
+
+	public Vehicle getVehicleByModel(String model) {
+		Query query = session.createQuery("From Vehicle v where v.model=:model");
+		query.setString("model", model);
+		return (Vehicle) query.uniqueResult();
+	}
+
 }

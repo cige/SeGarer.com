@@ -1,7 +1,9 @@
 package model.entities;
 
 import java.sql.Timestamp;
+import java.util.Random;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,49 +14,48 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class User {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
-	@Column(unique=true)
-	private String email;
-	
+
 	@Column
+	private String email;
+
 	private String pseudo;
-	
+
 	@Column
 	private String password;
-	
+
 	@Column
 	private Timestamp creationDate;
-	
-	@Column(name="active")
+
+	@Column(name = "active")
 	private boolean status;
-	
-	@ManyToOne
-	@JoinColumn(name="current_vehicle")
+
+	@ManyToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "current_vehicle")
 	private Vehicle vehicle;
 
 	@ManyToOne
-	@JoinColumn(name="aimed_spot")
+	@JoinColumn(name = "aimed_spot")
 	private Spot aimedSpot;
-	
-	@Column(name="freed_spots")
-	private Long freedSpots=0L;
-	
-	private User(){
+
+	@Column(name = "freed_spots")
+	private Long freedSpots = 0L;
+
+	private User() {
 		super();
 	}
-	
-	public User(String email, String pseudo, String password){
-		this.email= email;
-		this.pseudo =pseudo;
-		this.password= password;
-		this.creationDate= new Timestamp(System.currentTimeMillis());
+
+	public User(String email, String pseudo, String password) {
+		this.email = email;
+		this.pseudo = pseudo;
+		this.password = password;
+		this.creationDate = new Timestamp(System.currentTimeMillis());
 		this.status = false;
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -103,16 +104,16 @@ public class User {
 		this.vehicle = vehicle;
 	}
 
-	public void incrementFreedSpots(){
+	public void incrementFreedSpots() {
 		this.freedSpots++;
 	}
-	
-	public Long getFreedSpots(){
+
+	public Long getFreedSpots() {
 		return this.freedSpots;
 	}
 
 	public String getPseudo() {
 		return pseudo;
 	}
-	
+
 }

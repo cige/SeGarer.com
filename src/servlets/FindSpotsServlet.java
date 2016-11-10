@@ -73,7 +73,6 @@ public class FindSpotsServlet extends HttpServlet {
 		jsonWriter.close();
 		
 		resp.setStatus(HttpServletResponse.SC_ACCEPTED);
-
 	}
 
 }

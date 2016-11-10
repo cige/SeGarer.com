@@ -26,13 +26,11 @@ public class Hibernate extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		Vehicle v = new Vehicle();
-		v.setModel("Mercedes de merde!");
-		v.setSize(Vehicle.MEDIUM_SIZE);
+		Vehicle v = new Vehicle("Mercedes de Merde!", Vehicle.MEDIUM_SIZE);
 
 		DaoFactory factory = DaoFactory.getInstance();
-		
-		factory.getVehicleDao().persist(v);
+
+		factory.getVehicleDao().save(v);
 		request.getServletContext().getRequestDispatcher("/test.jsp").forward(request, response);
 	}
 
