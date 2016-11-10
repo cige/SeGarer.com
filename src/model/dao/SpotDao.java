@@ -42,4 +42,11 @@ public class SpotDao extends Dao<Spot> {
 		return query.list();
 	}
 
+	public Spot findSpotByAddress(Address addr) {
+		Query query = session.createQuery("From Spot s where s.address.longitude=:long and s.address.latitude=:lat");
+		query.setDouble("long", addr.getLongitude());
+		query.setDouble("lat", addr.getLatitude());
+		return (Spot) query.uniqueResult();
+	}
+
 }
