@@ -1,11 +1,3 @@
-/** Spot object definition**/
-
-var Spot = function(longitude,latitude,address){
-	this.longitude = longitude;
-	this.latitude = latitude;
-	this.address = address;
-}
-
 /** Banners **/
 
 var getBannerFromSpot = function(spot){
@@ -15,7 +7,7 @@ var getBannerFromSpot = function(spot){
 	res += spot.address;
 	res += "</div>";
 	res += "<div class='col-xs-5'>";
-	res += "Libéré il y a 45 minutes par <a href='#'>Robert2000</a>";
+	res += "Libéré il y a +"+ spot.time +" minutes par <a href='#'>"+ spot.user +"</a>";
 	res += "</div></div><div class='row'><div class='col-xs-8'>";
 	res += "<span class='glyphicon glyphicon glyphicon-road' aria-hidden='true'></span>";
 	res += "-- min (-,-km)";
@@ -33,13 +25,21 @@ var getInfoBanner = function(){
 
 var getNoResultBanner = function(){
 	var res ="<div class='list-group-item list-group-item-danger banner banner-no-result'>";
-	res += "Malheureusement, nous n'avons trouvé aucune place près de vous... </div>";
+	res +=	"<div class='row'>";
+	res +=	"<div class='col-xs-9'>";
+	res += "Malheureusement, nous n'avons trouvé aucune place près de vous...";
+	res += "</div>";
+	res +=	"<div class='col-xs-3'>";
+	res +="<button onClick='findSpots()'type='button' class='btn btn-danger pull-right'>";
+	res += "Relancer</button></div>";
+	res +="</div>";
+	res +="</div>";
 	return res;
 }
 
 /** Local variables **/
 
-var currentSpot;
+var currentSpot = null;
 var closestSpots = null;
 
 /** Other methods **/
@@ -56,23 +56,23 @@ function createRequestForReverseGeocoding(lat,lon){
 function updateBannerContainer(){
 	var container = $("#banner-container");
 	container.empty();
-	
+
 	if(currentSpot == null){
 		container.append(getInfoBanner());
 		return;
 	}
-	
+
 	if(closestSpots != null){
 		var length = closestSpots.length;
 		if(length==0){
 			container.append(getNoResultBanner());
 		}else{
 			for(var i=0;i<length;i++){
-				container.append(getBannerFromSpot(getclosestSpots[i]));
+				container.append(getBannerFromSpot(closestSpots[i]));
 			}
 		}
 	}
-	 
+
 
 }
 
@@ -84,8 +84,11 @@ function geolocalize(){
 
 	navigator.geolocation.getCurrentPosition(function(position)
 			{
-		currentSpot = new Spot(position.coords.latitude,position.coords.longitude);
-		var request = createRequestForReverseGeocoding(currentSpot.longitude,currentSpot.latitude);
+		currentSpot ={};
+		currentSpot.latitude = position.coords.latitude;
+		currentSpot.longitude = position.coords.longitude;
+		var request = createRequestForReverseGeocoding(currentSpot.latitude,currentSpot.longitude);
+		console.log(request);
 		$.ajax({
 			url:request,
 			type:"GET",

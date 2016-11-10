@@ -1,6 +1,7 @@
 package model.entities;
 
 import java.sql.Timestamp;
+import java.time.Period;
 import java.util.Set;
 
 import javax.json.Json;
@@ -135,6 +136,10 @@ public class Spot {
 		resBuilder.add("longitude", this.address.getLongitude());
 		resBuilder.add("latitude", this.address.getLatitude());
 		resBuilder.add("address", this.address.getFormattedAddress());
+		
+		resBuilder.add("user", this.originUser.getPseudo());
+		int minute = new Timestamp(System.currentTimeMillis() - this.releaseTime.getTime()).getMinutes();
+		resBuilder.add("time",minute );
 
 		return resBuilder.build();
 	}

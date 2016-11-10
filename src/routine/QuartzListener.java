@@ -13,7 +13,7 @@ import org.quartz.impl.StdSchedulerFactory;
 public class QuartzListener
 implements ServletContextListener{
 	
-	private final static boolean enableBots = false;
+	private final static boolean enableBots = true;
 
 	Scheduler scheduler = null;
 
@@ -43,7 +43,7 @@ implements ServletContextListener{
 					.withIdentity("trigger2", "group2")
 					.startNow()
 					.withSchedule(SimpleScheduleBuilder.simpleSchedule()
-							.withIntervalInMilliseconds(500)
+							.withIntervalInMilliseconds(1000)
 							.repeatForever())            
 							.build();
 
