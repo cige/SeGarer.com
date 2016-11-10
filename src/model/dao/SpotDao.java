@@ -35,14 +35,13 @@ public class SpotDao extends Dao<Spot> {
 				- (DISTANCE_MAX / Math.abs(Math.cos(Math.toRadians(position.getLongitude() * 69))));
 
 		Query query = session.createQuery(
-				"From Spot s where s.longitude between ? and ? and s.latitude between ? and ?");
+				"from Spot as s where s.address.longitude between :lgmin and :lgmax and s.address.latitude between :ltmin and :ltmax");
 
-		query.setDouble(1, longMin);
-		query.setDouble(2, longMax);
-		query.setDouble(3, latMin);
-		query.setDouble(4, latMax);
-		query.setMaxResults(n);
-
+		query.setDouble("lgmin", longMin);
+		query.setDouble("lgmax", longMax);
+		query.setDouble("ltmin", latMin);
+		query.setDouble("ltmax", latMax);
+		
 		return query.list();
 
 	}

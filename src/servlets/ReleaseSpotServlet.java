@@ -21,7 +21,7 @@ public class ReleaseSpotServlet extends HttpServlet {
 	private static final long serialVersionUID = -6887329651615332729L;
 
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 		HttpSession session = req.getSession(false);
 
@@ -44,7 +44,8 @@ public class ReleaseSpotServlet extends HttpServlet {
 		Address address = new Address(Double.valueOf(longitude), Double.valueOf(latitude), formatedAddress);
 
 		Spot spot = new Spot(address, user);
-
+		spot.setStatus(false);
+		
 		DaoFactory.getInstance().getSpotDao().persist(spot);
 
 		resp.setStatus(HttpServletResponse.SC_ACCEPTED);
