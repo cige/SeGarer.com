@@ -49,11 +49,11 @@ public class CreateSpotsJob implements Job {
 			e.printStackTrace();
 		}
 
-		//Address address = new Address(longitude, latitude, formattedAddr);
+		Address address = new Address(longitude, latitude, formattedAddr);
+		System.out.println(address);
+		Spot spot = new Spot(address);
 
-		//Spot spot = new Spot(address, bot);
-
-		//DaoFactory.getInstance().getSpotDao().persist(spot);
+		DaoFactory.getInstance().getSpotDao().persist(spot);
 	}
 
 }

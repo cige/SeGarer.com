@@ -22,7 +22,7 @@ public class PurgeSpotsJob implements Job {
 		SpotDao spotDao = DaoFactory.getInstance().getSpotDao();
 		List<Spot> spots = spotDao.findAll(Spot.class);
 		spots = spots.stream()
-				.filter(p -> p.getReleaseTime().before(new Timestamp(System.currentTimeMillis() - TIME_THRESHOLD*60)))
+				.filter(p -> p.getReleaseTime().before(new Timestamp(System.currentTimeMillis() - TIME_THRESHOLD*60000)))
 				.collect(Collectors.toList());
 		spotDao.purgeAll(spots);
 	}

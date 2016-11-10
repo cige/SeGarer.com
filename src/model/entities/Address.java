@@ -49,4 +49,8 @@ public class Address {
 		this.latitude = latitude;
 	}
 
+	@Override
+	public String toString() {
+		return formattedAddress + "(" + longitude + ", " + latitude + ")";
+	}
 }
