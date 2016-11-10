@@ -66,11 +66,13 @@ public class FindSpotsServlet extends HttpServlet {
 			spots.add(list.get(i).toJson());
 		}
 
-		json.add("result", spots);
+		json.add("results", spots);
 
 		JsonWriter jsonWriter = Json.createWriter(resp.getOutputStream());
 		jsonWriter.writeObject(json.build());
 		jsonWriter.close();
+		
+		resp.setStatus(HttpServletResponse.SC_ACCEPTED);
 
 	}
 
