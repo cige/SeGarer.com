@@ -6,9 +6,25 @@ var Spot = function(longitude,latitude,address){
 	this.address = address;
 }
 
+Spot.prototype.getHtml = function(){
+	var res="<div class='list-group-item list-group-item-info banner banner-info'>";
+	res +=	"<div class='row'>";
+	res +="<div class='col-xs-7'>";
+	res+=this.address;
+	res +="</div>";
+	res+="<div class='col-xs-5'>";
+	res+="Libéré il y a 45 minutes par <a href='#'>Robert2000</a>"
+		res+="</div></div><div class='row'><div class='col-xs-8'>";
+	res+="<span class='glyphicon glyphicon glyphicon-road' aria-hidden='true'></span>";
+	res+="-- min (-,-km)";
+	res+="</div><div class='col-xs-4'><button type='button' class='btn btn-info pull-right'>";
+	res+="J'y fonce !</button></div></div></div>";
+}
+
 /** Local variables **/
 
 var currentSpot;
+var closestSpots;
 
 /** Other methods **/
 
@@ -31,19 +47,19 @@ function geolocalize(){
 			{
 		currentSpot = new Spot(position.coords.latitude,position.coords.longitude);
 		var request = createRequestForReverseGeocoding(currentSpot.longitude,currentSpot.latitude);
-		console.log(request);
 		$.ajax({
 			url:request,
 			type:"GET",
 			dataType:"json",
 			success:function(data){
-				console.log(data);
 				if(data.results.length == 0){
 					$("#localisationInput").val(currentSpot.longitude+","+currentSpot.latitude);
-					return;
 				}
-				currentSpot.address = data.results[0].formatted_address;
-				$("#localisationInput").val(currentSpot.address);
+				else{
+					currentSpot.address = data.results[0].formatted_address;
+					$("#localisationInput").val(currentSpot.address);
+				}
+				findSpots();
 			}
 		})
 
@@ -74,11 +90,15 @@ function releaseSpot(){
 
 function findSpots(){
 
-	if(currentSpot == null)
-		currentSpot = new Spot(2,2,"55 rue issy");
+	if(currentSpot == null){
+		alert('veuillez saisir votre position');
+		return;
+	}
 
 	var success = function(data){
 		alert(data);
+		var obj = JSON.parse(data);
+		alert(obj);
 	}
 
 	var error = function(jqXHR,textStatus,errorThrown){
