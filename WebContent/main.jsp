@@ -41,7 +41,7 @@
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
 			<div class="navbar-header brand">
-				<h2>SeGarer.com
+				<h2>SeGarer.com</h2>
 			</div>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
@@ -76,14 +76,13 @@
 
 
 
-		<div id="list-group banner-container">
-
+		<div id="banner-container" class="list-group">
 			<div
 				class="list-group-item list-group-item-success banner banner-proposal">
 				Pour commencer à utiliser l'application, veuillez saisir votre
 				adresse actuelle, ou appuyer sur <span
 					class="glyphicon glyphicon-screenshot" aria-hidden="true"></span>
-
+ 
 			</div>
 			<div
 				class="list-group-item list-group-item-warning banner banner-release">
@@ -94,15 +93,13 @@
 						<button type="button" class="btn btn-warning pull-right"
 							onClick="releaseSpot()">Libérer ma place</button>
 					</div>
-
-
 				</div>
-
 			</div>
 		</div>
+	</div>
 
-		<script src="js/jquery-3.1.1.min.js"></script>
-		<script src="bootstrap/js/bootstrap.min.js"></script>
-		<script src="js/main.js"></script>
+	<script src="js/jquery-3.1.1.min.js"></script>
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+	<script src="js/main.js"></script>
 </body>
 </html>

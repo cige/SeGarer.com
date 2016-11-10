@@ -1,30 +1,46 @@
-/** Spot object definition**/
+/** Banners **/
 
-var Spot = function(longitude,latitude,address){
-	this.longitude = longitude;
-	this.latitude = latitude;
-	this.address = address;
-}
-
-Spot.prototype.getHtml = function(){
+var getBannerFromSpot = function(spot){
 	var res="<div class='list-group-item list-group-item-info banner banner-info'>";
 	res +=	"<div class='row'>";
 	res +="<div class='col-xs-7'>";
-	res+=this.address;
+	res += spot.address;
+	res += "</div>";
+	res += "<div class='col-xs-5'>";
+	res += "Libéré il y a +"+ spot.time +" minutes par <a href='#'>"+ spot.user +"</a>";
+	res += "</div></div><div class='row'><div class='col-xs-8'>";
+	res += "<span class='glyphicon glyphicon glyphicon-road' aria-hidden='true'></span>";
+	res += "-- min (-,-km)";
+	res += "</div><div class='col-xs-4'><button type='button' class='btn btn-info pull-right'>";
+	res += "J'y fonce !</button></div></div></div>";
+	return res;
+}
+
+var getInfoBanner = function(){
+	var res ="<div class='list-group-item list-group-item-success banner banner-info'>";
+	res += "Pour commencer à utiliser l'application, veuillez saisir votre adresse actuelle,";
+	res +="ou appuyer sur <span class='glyphicon glyphicon-screenshot' aria-hidden='true'></span></div>";
+	return res;
+}
+
+var getNoResultBanner = function(){
+	var res ="<div class='list-group-item list-group-item-danger banner banner-no-result'>";
+	res +=	"<div class='row'>";
+	res +=	"<div class='col-xs-9'>";
+	res += "Malheureusement, nous n'avons trouvé aucune place près de vous...";
+	res += "</div>";
+	res +=	"<div class='col-xs-3'>";
+	res +="<button onClick='findSpots()'type='button' class='btn btn-danger pull-right'>";
+	res += "Relancer</button></div>";
 	res +="</div>";
-	res+="<div class='col-xs-5'>";
-	res+="Libéré il y a 45 minutes par <a href='#'>Robert2000</a>"
-		res+="</div></div><div class='row'><div class='col-xs-8'>";
-	res+="<span class='glyphicon glyphicon glyphicon-road' aria-hidden='true'></span>";
-	res+="-- min (-,-km)";
-	res+="</div><div class='col-xs-4'><button type='button' class='btn btn-info pull-right'>";
-	res+="J'y fonce !</button></div></div></div>";
+	res +="</div>";
+	return res;
 }
 
 /** Local variables **/
 
-var currentSpot;
-var closestSpots;
+var currentSpot = null;
+var closestSpots = null;
 
 /** Other methods **/
 
@@ -37,6 +53,29 @@ function createRequestForReverseGeocoding(lat,lon){
 
 }
 
+function updateBannerContainer(){
+	var container = $("#banner-container");
+	container.empty();
+
+	if(currentSpot == null){
+		container.append(getInfoBanner());
+		return;
+	}
+
+	if(closestSpots != null){
+		var length = closestSpots.length;
+		if(length==0){
+			container.append(getNoResultBanner());
+		}else{
+			for(var i=0;i<length;i++){
+				container.append(getBannerFromSpot(closestSpots[i]));
+			}
+		}
+	}
+
+
+}
+
 function geolocalize(){
 	if(!navigator.geolocation){
 		alert("Votre navigateur ne permet pas la géolocalisation");
@@ -45,8 +84,11 @@ function geolocalize(){
 
 	navigator.geolocation.getCurrentPosition(function(position)
 			{
-		currentSpot = new Spot(position.coords.latitude,position.coords.longitude);
-		var request = createRequestForReverseGeocoding(currentSpot.longitude,currentSpot.latitude);
+		currentSpot ={};
+		currentSpot.latitude = position.coords.latitude;
+		currentSpot.longitude = position.coords.longitude;
+		var request = createRequestForReverseGeocoding(currentSpot.latitude,currentSpot.longitude);
+		console.log(request);
 		$.ajax({
 			url:request,
 			type:"GET",
@@ -96,15 +138,15 @@ function findSpots(){
 	}
 
 	var success = function(data){
-		alert(data);
-		var obj = JSON.parse(data);
-		alert(obj);
+		closestSpots = data.results;
+		updateBannerContainer();
 	}
 
 	var error = function(jqXHR,textStatus,errorThrown){
 		alert('error');
 	}
 
+	console.log('appel servlet');
 	$.ajax({
 		url : 'find',
 		type : 'GET',
