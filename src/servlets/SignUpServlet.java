@@ -21,7 +21,6 @@ public class SignUpServlet extends HttpServlet {
 
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 		String email = request.getParameter("email");
 		String pseudo = request.getParameter("pseudo");
 		String password = request.getParameter("password");
@@ -30,18 +29,17 @@ public class SignUpServlet extends HttpServlet {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST);
 			return;
 		}
-		
-		//TODO check if the email is well formed
 
+		// TODO check if the email is well formed
 
-		UserDao userDao= DaoFactory.getInstance().getUserDao();
+		UserDao userDao = DaoFactory.getInstance().getUserDao();
 
-		if(userDao.getUserFromEmail(email) != null){
+		if (userDao.getUserFromEmail(email) != null) {
 			response.sendError(HttpResponseCode.EMAIL_ALREADY_USED);
 			return;
 		}
-		
-		if(userDao.getUserFromPseudo(pseudo) != null){
+
+		if (userDao.getUserFromPseudo(pseudo) != null) {
 			response.sendError(HttpResponseCode.PSEUDO_ALREADY_USED);
 			return;
 		}
@@ -58,7 +56,7 @@ public class SignUpServlet extends HttpServlet {
 		user.setStatus(true);
 		userDao.persist(user);
 		HttpSession session = request.getSession();
-		session.setAttribute("user", user);	
+		session.setAttribute("user", user);
 		response.setStatus(HttpServletResponse.SC_ACCEPTED);
 	}
 

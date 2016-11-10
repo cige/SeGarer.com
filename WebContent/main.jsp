@@ -85,25 +85,6 @@
 					class="glyphicon glyphicon-screenshot" aria-hidden="true"></span>
 
 			</div>
-			<div class="list-group-item list-group-item-info banner banner-info">
-				<div class="row">
-					<div class="col-xs-7">65 rue Paul vaillant couturier Malakoff</div>
-					<div class="col-xs-5">
-						Libéré il y a 45 minutes par <a href="#">Robert2000</a>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-xs-8">
-						<span class="glyphicon glyphicon glyphicon-road"
-							aria-hidden="true"></span> 20 min (3,5km)
-					</div>
-					<div class="col-xs-4">
-						<button type="button" class="btn btn-info pull-right">J'y
-							fonce !</button>
-					</div>
-				</div>
-			</div>
-
 			<div
 				class="list-group-item list-group-item-warning banner banner-release">
 				<div class="row">
@@ -111,7 +92,7 @@
 						Vous quittez une place de stationnement ? Faites en profiter la
 						communauté !
 						<button type="button" class="btn btn-warning pull-right"
-							onClick="geolocalize()">Libérer ma place</button>
+							onClick="releaseSpot()">Libérer ma place</button>
 					</div>
 
 

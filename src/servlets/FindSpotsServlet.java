@@ -24,56 +24,54 @@ public class FindSpotsServlet extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = -7643486180166520978L;
-	
+
 	private final static int RESULTS_NUMBER = 4;
-	
+
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-		
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
 		HttpSession session = req.getSession(false);
-		
-		if(session == null){
+
+		if (session == null) {
 			resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
 			return;
 		}
-		
+
 		User user = (User) session.getAttribute("user");
-		
-		if(user == null){
+
+		if (user == null) {
 			resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
 			return;
 		}
-		
+
 		String longitude = req.getParameter("longitude");
 		String latitude = req.getParameter("latitude");
 		String formatedAddress = req.getParameter("address");
-		
-		if(longitude == null || latitude == null){
+
+		if (longitude == null || latitude == null) {
 			resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
 			return;
 		}
-		
-		Spot userSpot = new Spot(new Address(new Float(longitude),new Float(latitude), formatedAddress), user);
-		
+
+		Address currentPos = new Address(new Double(longitude), new Double(latitude), formatedAddress);
+
 		resp.setContentType("application/json");
-		
+
 		JsonObjectBuilder json = Json.createObjectBuilder();
 		JsonArrayBuilder spots = Json.createArrayBuilder();
-		
-		List<Spot> list = DaoFactory.getInstance().getSpotDao().findSpots(user, userSpot, RESULTS_NUMBER);
-		
-		for(int i = 0; i< RESULTS_NUMBER && i<list.size(); i ++){
+
+		List<Spot> list = DaoFactory.getInstance().getSpotDao().findClosestSpostsf(currentPos, RESULTS_NUMBER);
+
+		for (int i = 0; i < RESULTS_NUMBER && i < list.size(); i++) {
 			spots.add(list.get(i).toJson());
 		}
-		
+
 		json.add("result", spots);
-		
+
 		JsonWriter jsonWriter = Json.createWriter(resp.getOutputStream());
 		jsonWriter.writeObject(json.build());
 		jsonWriter.close();
-		
-		
+
 	}
 
 }
