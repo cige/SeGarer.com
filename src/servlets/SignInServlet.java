@@ -14,6 +14,7 @@ import model.entities.User;
 
 public class SignInServlet extends HttpServlet {
 
+	private static final String MAIN_VIEW = "main.jsp";
 	/**
 	 * 
 	 */
@@ -22,43 +23,42 @@ public class SignInServlet extends HttpServlet {
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		String login = request.getParameter("login");
-		String password = request.getParameter("password");
-		
-		if(login == null || password == null){
+		String login = request.getParameter("login").trim();
+		String password = request.getParameter("password").trim();
+		if (login == null || password == null) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST);
 			return;
 		}
-		
-		UserDao userDao= DaoFactory.getInstance().getUserDao();
-		
+
+		UserDao userDao = DaoFactory.getInstance().getUserDao();
+
 		// check if user exists
-		
-		User user = userDao.getUserFromLogin(login);
-		
-		if(user == null){
+		User user;
+		if (ServletUtil.isEmail(login)) {
+			user = userDao.getUserFromEmail(login);
+		} else {
+			user = userDao.getUserFromPseudo(login);
+		}
+
+		if (user == null) {
 			response.sendError(HttpResponseCode.INCORRECT_LOGIN);
 			return;
 		}
-		
+
 		// check password
-		
-		if(!user.getPassword().equals(password)){
+		if (!user.getPassword().equals(password)) {
 			response.sendError(HttpResponseCode.INCORRECT_PASSWORD);
 			return;
 		}
-		
-		
-		
-		// sign in 
-		
+
+		// sign in
 		user.setStatus(true);
 		userDao.save(user);
 		HttpSession session = request.getSession();
 		session.setAttribute("user", user);
-		
+
 		response.setStatus(HttpServletResponse.SC_ACCEPTED);
-		response.sendRedirect("main.jsp");
+		response.sendRedirect(MAIN_VIEW);
 	}
 
 }

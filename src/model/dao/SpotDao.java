@@ -8,7 +8,6 @@ import model.entities.Address;
 import model.entities.Spot;
 
 public class SpotDao extends Dao<Spot> {
-	
 
 	private final static SpotDao SINGLETON = new SpotDao();
 
@@ -53,6 +52,13 @@ public class SpotDao extends Dao<Spot> {
 		session.beginTransaction();
 		spots.forEach(p -> session.delete(p));
 		session.getTransaction().commit();
+	}
+
+	public Spot getSpotByCoordonates(Double longitude, Double latitude) {
+		Query query = session.createQuery("from Spot s where s.address.longitude=:lg and s.address.latitude:=lat");
+		query.setDouble("lg", longitude);
+		query.setDouble("lat", latitude);
+		return (Spot) query.uniqueResult();
 	}
 
 }

@@ -6,7 +6,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import model.dao.DaoFactory;
 import model.dao.SpotDao;
@@ -25,36 +24,34 @@ public class ReleaseSpotServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-		HttpSession session = req.getSession(false);
-
-		if (session == null) {
+		if (!ServletUtil.isLogged(req)) {
 			resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
 			return;
 		}
 
-		User user = (User) session.getAttribute("user");
+		User user = (User) req.getSession(false).getAttribute("user");
 
-		if (user == null) {
-			resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+		Double longitude;
+		Double latitude;
+		try {
+			longitude = Double.valueOf(req.getParameter("longitude"));
+			latitude = Double.valueOf(req.getParameter("latitude"));
+
+		} catch (Exception e) {
+			resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
 			return;
 		}
 
-		String longitude = req.getParameter("longitude");
-		String latitude = req.getParameter("latitude");
-		String formatedAddress = req.getParameter("address");
-
-		Address address = new Address(Double.valueOf(longitude), Double.valueOf(latitude), formatedAddress);
+		String formatedAddress = ServletUtil.getParam(req, "address");
+		Address address = new Address(longitude, latitude, formatedAddress);
 
 		SpotDao spotDao = DaoFactory.getInstance().getSpotDao();
-
 		Spot spot = spotDao.findSpotByAddress(address);
-		
+
 		if (spot == null)
-			spot = new Spot(address);
-		spot.setOriginUser(user);
+			spot = new Spot(address, user);
 		spot.setFree(true);
 		spotDao.save(spot);
-
 		resp.setStatus(HttpServletResponse.SC_ACCEPTED);
 	}
 

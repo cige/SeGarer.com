@@ -20,6 +20,13 @@ public class UserDao extends Dao<User> {
 		return SINGLETON;
 	}
 
+	public User getUserFromEmail(String email, String password) {
+		Query query = session.createQuery("From User  u where u.email=:email and u.password:=password");
+		query.setString("email", email);
+		query.setString("password", password);
+		return (User) query.uniqueResult();
+	}
+
 	public User getUserFromEmail(String email) {
 		Query query = session.createQuery("From User  u where u.email=:email");
 		query.setString("email", email);
@@ -29,6 +36,13 @@ public class UserDao extends Dao<User> {
 	public User getUserFromPseudo(String pseudo) {
 		Query query = session.createQuery("From User u where u.pseudo=:pseudo");
 		query.setString("pseudo", pseudo);
+		return (User) query.uniqueResult();
+	}
+
+	public User getUserFromPseudo(String pseudo, String password) {
+		Query query = session.createQuery("From User u where u.pseudo=:pseudo and u.password:=password");
+		query.setString("pseudo", pseudo);
+		query.setString("password", password);
 		return (User) query.uniqueResult();
 	}
 
