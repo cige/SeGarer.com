@@ -19,6 +19,7 @@ import model.entities.Spot;
 import model.entities.User;
 
 public class FindSpotsServlet extends HttpServlet {
+	public static final float DISTANCE_MAX = 1.86411f; //3 Km
 
 	/**
 	 * 
@@ -60,7 +61,7 @@ public class FindSpotsServlet extends HttpServlet {
 		JsonObjectBuilder json = Json.createObjectBuilder();
 		JsonArrayBuilder spots = Json.createArrayBuilder();
 
-		List<Spot> list = DaoFactory.getInstance().getSpotDao().findClosestSposts(currentPos, RESULTS_NUMBER);
+		List<Spot> list = DaoFactory.getInstance().getSpotDao().findClosestSposts(currentPos, DISTANCE_MAX,  RESULTS_NUMBER);
 
 		for (int i = 0; i < RESULTS_NUMBER && i < list.size(); i++) {
 			spots.add(list.get(i).toJson());
