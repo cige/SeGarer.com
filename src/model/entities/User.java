@@ -1,9 +1,7 @@
 package model.entities;
 
 import java.sql.Timestamp;
-import java.util.Random;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Entity
 public class User {
@@ -33,7 +34,8 @@ public class User {
 	@Column(name = "active")
 	private boolean status;
 
-	@ManyToOne(cascade = CascadeType.PERSIST)
+	@ManyToOne
+	@Cascade(CascadeType.SAVE_UPDATE)
 	@JoinColumn(name = "current_vehicle")
 	private Vehicle vehicle;
 

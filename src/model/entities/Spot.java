@@ -1,12 +1,10 @@
 package model.entities;
 
 import java.sql.Timestamp;
-import java.util.Set;
 
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -15,8 +13,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Entity
 public class Spot {
@@ -37,22 +37,23 @@ public class Spot {
 	 */
 	private boolean isFree;
 
-	@OneToOne(cascade=CascadeType.PERSIST)
+	@OneToOne
+	@Cascade(CascadeType.SAVE_UPDATE)
 	@JoinColumn(name = "origin_user")
 	private User originUser;
 
-	@ManyToOne(cascade=CascadeType.PERSIST)
+	@ManyToOne
+	@Cascade(CascadeType.SAVE_UPDATE)
 	@JoinColumn(name = "id_horodator")
 	private Horodator horodator;
 
 	@Column(name = "vehicle_size")
 	private Integer size;
 
-	@OneToMany(mappedBy = "aimedSpot", cascade=CascadeType.PERSIST)
-	private Set<User> interestedUsers;
+	@Column(name = "interested_nb")
+	private int interestedUsers = 0;
 
 	private Spot() {
-		super();
 	}
 
 	public Spot(Address address, User originUser) {
@@ -126,8 +127,16 @@ public class Spot {
 		this.size = size;
 	}
 
-	public int getInterestedUsersNumber() {
-		return this.interestedUsers.size();
+	public int incremenInterestUsers() {
+		return this.interestedUsers++;
+	}
+
+	public int getInterestedUsers() {
+		return interestedUsers;
+	}
+
+	public void setInterestedUsers(int interestedUsers) {
+		this.interestedUsers = interestedUsers;
 	}
 
 	public JsonObject toJson() {
@@ -136,12 +145,11 @@ public class Spot {
 		resBuilder.add("longitude", this.address.getLongitude());
 		resBuilder.add("latitude", this.address.getLatitude());
 		resBuilder.add("address", this.address.getFormattedAddress());
-		
+
 		resBuilder.add("user", this.originUser.getPseudo());
 		int minute = new Timestamp(System.currentTimeMillis() - this.releaseTime.getTime()).getMinutes();
-		resBuilder.add("time",minute );
-		resBuilder.add("intersted", interestedUsers.size());
-
+		resBuilder.add("time", minute);
+		resBuilder.add("intersted", interestedUsers);
 		return resBuilder.build();
 	}
 }

@@ -17,7 +17,7 @@ import model.entities.Address;
 import model.entities.Spot;
 
 public class FindSpotsServlet extends HttpServlet {
-	public static final float DISTANCE_MAX = 1.86411f; // 3 Km
+	public static final float DISTANCE_MAX = 1.609f * 5; // 3 Km
 
 	/**
 	 * 
@@ -33,8 +33,8 @@ public class FindSpotsServlet extends HttpServlet {
 			resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
 		}
 
-		Double longitude;
-		Double latitude;
+		double longitude;
+		double latitude;
 		try {
 			longitude = Double.valueOf(ServletUtil.getParam(req, "longitude"));
 			latitude = Double.valueOf(ServletUtil.getParam(req, "latitude"));
@@ -45,8 +45,7 @@ public class FindSpotsServlet extends HttpServlet {
 
 		String formatedAddress = ServletUtil.getParam(req, "address");
 
-		Address currentPos = new Address(new Double(longitude), new Double(latitude), formatedAddress);
-
+		Address currentPos = new Address(longitude, latitude, formatedAddress);
 		resp.setContentType("application/json");
 
 		JsonObjectBuilder json = Json.createObjectBuilder();

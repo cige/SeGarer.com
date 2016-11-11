@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import model.dao.DaoFactory;
 import model.entities.Spot;
 
-@WebServlet("/holdSpot")
-public class HoldSpotServlet extends HttpServlet {
+@WebServlet("/targetSpot")
+public class TargetSpotServlet extends HttpServlet {
 
 	/**
 	 * 
@@ -41,7 +41,8 @@ public class HoldSpotServlet extends HttpServlet {
 		Spot spot = factory.getSpotDao().getSpotByCoordonates(longitude, latitude);
 
 		if (spot != null && spot.isFree()) {
-			factory.getSpotDao().delete(spot);
+			spot.incremenInterestUsers();
+			factory.getSpotDao().save(spot);
 			resp.setStatus(HttpServletResponse.SC_ACCEPTED);
 		} else {
 			resp.sendError(HttpServletResponse.SC_BAD_REQUEST);

@@ -24,12 +24,12 @@ public class SpotDao extends Dao<Spot> {
 	 */
 	public List<Spot> findClosestSposts(Address position, float dist, int n) {
 
-		Double longMin = position.getLongitude()
+		double longMin = position.getLongitude()
 				- (dist / Math.abs(Math.cos(Math.toRadians(position.getLatitude() * 69))));
-		Double longMax = position.getLongitude()
+		double longMax = position.getLongitude()
 				+ (dist / Math.abs(Math.cos(Math.toRadians(position.getLatitude() * 69))));
-		Double latMin = position.getLatitude() - (dist / 69);
-		Double latMax = position.getLatitude() + (dist / 69);
+		double latMin = position.getLatitude() - (dist / 69);
+		double latMax = position.getLatitude() + (dist / 69);
 		Query query = session.createQuery(
 				"from Spot as s where s.address.longitude between :lgmin and :lgmax and s.address.latitude between :ltmin and :ltmax");
 
@@ -38,7 +38,8 @@ public class SpotDao extends Dao<Spot> {
 		query.setDouble("ltmin", latMin);
 		query.setDouble("ltmax", latMax);
 
-		return query.list();
+		List<Spot> list = query.list();
+		return list;
 	}
 
 	public Spot findSpotByAddress(Address addr) {
@@ -55,7 +56,7 @@ public class SpotDao extends Dao<Spot> {
 	}
 
 	public Spot getSpotByCoordonates(Double longitude, Double latitude) {
-		Query query = session.createQuery("from Spot s where s.address.longitude=:lg and s.address.latitude:=lat");
+		Query query = session.createQuery("from Spot s where s.address.longitude=:lg and s.address.latitude=:lat");
 		query.setDouble("lg", longitude);
 		query.setDouble("lat", latitude);
 		return (Spot) query.uniqueResult();
