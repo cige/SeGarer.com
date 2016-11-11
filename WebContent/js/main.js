@@ -72,12 +72,12 @@ function updateBannerContainer(){
 
 function setButtonOnClick(buttonId,fun){
 	$(buttonId).on('click',function() {
-	    var btn = $(this);
-	    alert(btn);
-	    btn.attr("data-loading-text","<i class='fa fa-spinner fa-spin'></i>");
-	    btn.button('loading');
-	    fun();
-	    btn.button('reset');
+		var btn = $(this);
+		btn.attr('data-loading-text',"<i class='fa fa-spinner fa-spin'></i>");
+		btn.button('loading');
+		window.setTimeout(fun, 600);
+		btn.button('reset');
+
 	});
 }
 
@@ -93,7 +93,9 @@ function createRequestForReverseGeocoding(lat,lon){
 }
 
 function geolocalize(){
-	console.log('geoloc');
+	
+	$('#geolocalizeButton').button('loading');
+	
 	if(!navigator.geolocation){
 		alert("Votre navigateur ne permet pas la géolocalisation");
 		return;
@@ -105,7 +107,6 @@ function geolocalize(){
 		currentSpot.latitude = position.coords.latitude;
 		currentSpot.longitude = position.coords.longitude;
 		var request = createRequestForReverseGeocoding(currentSpot.latitude,currentSpot.longitude);
-		console.log(request);
 		$.ajax({
 			url:request,
 			type:"GET",
@@ -118,6 +119,7 @@ function geolocalize(){
 					currentSpot.address = data.results[0].formatted_address;
 					$("#localisationInput").val(currentSpot.address);
 				}
+				$('#geolocalizeButton').button('reset');
 				findSpots();
 			}
 		})
@@ -163,7 +165,6 @@ function findSpots(){
 		alert('error');
 	}
 
-	console.log('appel servlet');
 	$.ajax({
 		url : 'find',
 		type : 'GET',
@@ -172,9 +173,5 @@ function findSpots(){
 		error: error
 	});
 }
-
-setButtonOnClick('#geolocalizeButton',geolocalize);
-setButtonOnClick("#releaseSpotButton",releaseSpot);
-setButtonOnClick("#searchAgainButton",findSpots);
 
 

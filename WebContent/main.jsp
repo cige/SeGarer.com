@@ -35,7 +35,9 @@
 <link rel="stylesheet" type="text/css"
 	href="https://fonts.googleapis.com/css?family=Raleway">
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<link
+	href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css"
+	rel="stylesheet">
 <link href="css/main.css" rel="stylesheet">
 </head>
 <body>
@@ -69,7 +71,8 @@
 		<div id="input-container" class="form-horizontal form-group">
 			<input id="localisationInput" type=text
 				class="form-control col-xs-11">
-			<button id="geolocalizeButton" type="button"
+			<button id="geolocalizeButton" onClick="geolocalize()" type="button"
+				data-loading-text="<i class='fa fa-spinner fa-spin'></i>"
 				class="btn btn-default col-xs-1">
 				<span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span>
 			</button>
@@ -83,7 +86,7 @@
 				Pour commencer à utiliser l'application, veuillez saisir votre
 				adresse actuelle, ou appuyer sur <span
 					class="glyphicon glyphicon-screenshot" aria-hidden="true"></span>
- 
+
 			</div>
 			<div
 				class="list-group-item list-group-item-warning banner banner-release">
@@ -91,8 +94,9 @@
 					<div class="col-xs-12">
 						Vous quittez une place de stationnement ? Faites en profiter la
 						communauté !
-						<button id="releaseSpotButton" type="button" class="btn btn-warning pull-right"
-							>Libérer ma place</button>
+						<button id="releaseSpotButton" type="button"
+							class="btn btn-warning pull-right">Libérer ma
+							place</button>
 					</div>
 				</div>
 			</div>
