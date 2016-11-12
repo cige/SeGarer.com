@@ -2,7 +2,10 @@ $('#signInButton').on('click',function() {
     var $btn = $(this);
     $btn.button('loading');
     signIn();
-    $btn.button('reset');
+});
+
+$('#registerButton').on('click',function() {
+	$('#form-container').fadeOut('slow',function(){window.location.replace("/DAR/register.jsp");});
 });
 
 function signIn(){
@@ -21,6 +24,7 @@ function signIn(){
 	}
 
 	if(!ok){
+		$('#signInButton').button('reset');
 		alert("error somewhere");
 		return;
 	}
@@ -31,6 +35,7 @@ function signIn(){
 	}
 
 	var success = function(){
+		$('#signInButton').button('reset');
 		window.location.replace("main.jsp");
 	}
 
@@ -47,7 +52,8 @@ function signIn(){
 		}
 
 		alert('error: ' + jqXHR.status);
-
+		
+		$('#signInButton').button('reset');
 	}
 
 	$.ajax({
@@ -58,3 +64,10 @@ function signIn(){
 		error: error
 	});
 }
+
+function display(){
+	$('#form-container').fadeIn('slow');
+}
+
+$(document).ready(display());
+

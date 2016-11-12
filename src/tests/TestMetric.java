@@ -17,7 +17,7 @@ public class TestMetric {
 		
 		System.out.println(metric);
 		
-		System.out.println(ServletUtil.opportunity(addr1, spot));
+		System.out.println(ServletUtil.opportunity(metric, spot));
 	}
 
 }

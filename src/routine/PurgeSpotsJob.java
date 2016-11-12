@@ -14,7 +14,7 @@ import model.entities.Spot;
 
 public class PurgeSpotsJob implements Job {
 
-	private final static int TIME_THRESHOLD = 30;
+	private final static int TIME_THRESHOLD = 15;
 
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {

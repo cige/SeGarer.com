@@ -1,18 +1,27 @@
 package servlets;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.List;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
+import javax.json.JsonBuilderFactory;
+import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
+import javax.json.JsonValue;
 import javax.json.JsonWriter;
+import javax.json.JsonValue.ValueType;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import api.GoogleAPI;
+import api.Metric;
 import model.dao.DaoFactory;
+import model.entities.Address;
 import model.entities.Spot;
 
 public class FindSpotsServlet extends HttpServlet {
@@ -34,7 +43,7 @@ public class FindSpotsServlet extends HttpServlet {
 
 		double longitude;
 		double latitude;
-		
+
 		try {
 			longitude = Double.valueOf(ServletUtil.getParam(req, "longitude"));
 			latitude = Double.valueOf(ServletUtil.getParam(req, "latitude"));
@@ -51,7 +60,10 @@ public class FindSpotsServlet extends HttpServlet {
 		List<Spot> list = DaoFactory.getInstance().getSpotDao().findClosestSposts((Double)latitude,(Double)longitude, DISTANCE_MAX,  RESULTS_NUMBER);
 
 		for (int i = 0; i < RESULTS_NUMBER && i < list.size(); i++) {
-			spots.add(list.get(i).toJson());
+			Spot spot = list.get(i);
+			Metric metric = GoogleAPI.distanceToSpot(new Address(longitude, latitude, ""), spot.getAddress());
+			float purcentage = ServletUtil.opportunity(metric, spot);
+			spots.add(spot.toJson(metric, purcentage));
 		}
 
 		json.add("results", spots);

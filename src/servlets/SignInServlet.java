@@ -13,8 +13,7 @@ import model.dao.UserDao;
 import model.entities.User;
 
 public class SignInServlet extends HttpServlet {
-
-	private static final String MAIN_VIEW = "main.jsp";
+	
 	/**
 	 * 
 	 */
@@ -58,7 +57,6 @@ public class SignInServlet extends HttpServlet {
 		session.setAttribute("user", user);
 
 		response.setStatus(HttpServletResponse.SC_ACCEPTED);
-		response.sendRedirect(MAIN_VIEW);
 	}
 
 }

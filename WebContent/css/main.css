@@ -4,6 +4,7 @@ body {
 
 .brand {
 	font-family: 'Lobster';
+	color : black;
 }
 
 #main-container {
@@ -31,5 +32,10 @@ body {
 
 .banner {
 	display: none;
-	max-height: 90px;
+}
+
+#form-container{
+	max-width: 400px;
+	margin: auto;
+	display: none;
 }

@@ -18,6 +18,8 @@ import javax.persistence.OneToOne;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
+import api.Metric;
+
 @Entity
 public class Spot {
 
@@ -139,7 +141,8 @@ public class Spot {
 		this.interestedUsers = interestedUsers;
 	}
 
-	public JsonObject toJson() {
+	public JsonObject toJson(Metric metric, float purcentage) {
+		
 		JsonObjectBuilder resBuilder = Json.createObjectBuilder();
 
 		resBuilder.add("longitude", this.address.getLongitude());
@@ -147,9 +150,10 @@ public class Spot {
 		resBuilder.add("address", this.address.getFormattedAddress());
 
 		resBuilder.add("user", this.originUser.getPseudo());
-		int minute = new Timestamp(System.currentTimeMillis() - this.releaseTime.getTime()).getMinutes();
-		resBuilder.add("time", minute);
 		resBuilder.add("intersted", interestedUsers);
+		resBuilder.add("purcentage", purcentage);
+		resBuilder.add("distance", metric.getFormattedDistance());
+		resBuilder.add("duration", metric.getFormattedDuration());
 		return resBuilder.build();
 	}
 }

@@ -38,9 +38,8 @@ public class ServletUtil {
 		}
 	}
 
-	public static float opportunity(Address currentPosition, Spot spot) {
+	public static float opportunity(Metric metric, Spot spot) {
 		float opportunity;
-		Metric metric = GoogleAPI.distanceToSpot(currentPosition, spot.getAddress());
 		System.out.println();
 		float tmp = metric.getDuration()+((System.currentTimeMillis()-spot.getReleaseTime().getTime())/60000);
 		

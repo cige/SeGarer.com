@@ -30,7 +30,8 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<link href="https://fonts.googleapis.com/css?family=Lobster|Raleway" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Lobster|Raleway"
+	rel="stylesheet">
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link
 	href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css"
@@ -41,7 +42,9 @@
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
 			<div class="navbar-header brand">
-				<h2>SeGarer.com</h2>
+				<h2>
+					SeGarer.com
+				</h2>
 			</div>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
@@ -74,9 +77,9 @@
 				<span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span>
 			</button>
 		</div>
-		
+
 		<div id="banner-container" class="list-group"></div>
-		
+
 	</div>
 
 	<script src="js/jquery-3.1.1.min.js"></script>

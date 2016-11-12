@@ -3,6 +3,11 @@
 var currentSpot = null;
 var closestSpots = null;
 
+/** Messages **/
+
+var welcome = "Pour commencer à utiliser l'application, veuillez saisir votre adresse actuelle, ou appuyer sur <span class='glyphicon glyphicon-screenshot' aria-hidden='true'></span>";
+var loading = "<i class='fa fa-spinner fa-spin'></i> Recherche des places disponibles à proximité ...";
+
 /** Banners **/
 
 var getSpotBanner = function(spot,i){
@@ -12,25 +17,17 @@ var getSpotBanner = function(spot,i){
 	res += spot.address;
 	res += "</div>";
 	res += "<div class='col-xs-3'>";
-	res += "Libéré il y a "+ spot.time +" minutes par <a href='#'>"+ spot.user +"</a>";
+	res += "<h3>"+spot.purcentage+"%<h3>";
 	res += "</div></div><div class='row'><div class='col-xs-8'>";
 	res += "<span class='glyphicon glyphicon glyphicon-road' aria-hidden='true'></span>";
-	res += "-- min (-,-km)";
+	res += spot.duration+" ("+spot.distance+")";
 	res += "</div><div class='col-xs-4'><button type='button' class='btn btn-info pull-right'>";
 	res += "J'y fonce !<span class='badge'>"+spot.intersted+"</span></button></div></div></div>";
 	return res;
 }
 
-var getLoadingBanner = function () {
-	var res ="<div id='loadingBanner' class='list-group-item list-group-item-info banner banner-info'>";
-	res += "<i class='fa fa-spinner fa-spin'></i> Recherche des places disponibles à proximité </div>";
-	return res;
-}
-
 var getInfoBanner = function(){
-	var res ="<div id='infoBanner' class='list-group-item list-group-item-success banner banner-info'>";
-	res += "Pour commencer à utiliser l'application, veuillez saisir votre adresse actuelle,";
-	res +="ou appuyer sur <span class='glyphicon glyphicon-screenshot' aria-hidden='true'></span></div>";
+	var res ="<div id='infoBanner' class='list-group-item list-group-item-success banner banner-info'></div>";
 	return res;
 }
 
@@ -51,11 +48,22 @@ var getNoResultBanner = function(){
 	res += "Malheureusement, nous n'avons trouvé aucune place près de vous...";
 	res += "</div>";
 	res +=	"<div class='col-xs-3'>";
-	res +="<button id='searchAgainButton' onClick='searchAgain();' type='button' class='btn btn-danger pull-right'>";
+	res +="<button id='searchAgainButton' onClick='findSpots();' type='button' class='btn btn-danger pull-right'>";
 	res += "Relancer</button></div>";
 	res +="</div>";
 	res +="</div>";
 	return res;
+}
+
+function initBannerContainer(){
+
+	console.log('init');
+	if(currentSpot == null){
+
+		$('#banner-container').queue('banner',function(){$('#banner-container').empty();$('#banner-container').append(getInfoBanner());$('#infoBanner').html(welcome);$('#infoBanner').fadeIn();$('#banner-container').dequeue('banner');});
+	}
+
+	$('#banner-container').dequeue('banner');
 }
 
 function emptyBannerContainer(){
@@ -68,22 +76,30 @@ function emptyBannerContainer(){
 }
 
 function updateBannerContainer(){
-
 	console.log('update');
+
+	if(currentSpot == null){
+		emptyBannerContainer();
+		initBannerContainer();
+		return;
+	}
 
 	if(currentSpot!= null && ! $('#releaseBanner').length){
 		$('#banner-container').queue('banner',function(){$('#banner-container').append(getReleaseBanner());$('#releaseBanner').fadeIn('slow');$('#banner-container').dequeue('banner');});
 	}
 
-	if(closestSpots == null && ! $('#loadingBanner').length){
-		$('#banner-container').queue('banner',function(){console.log('loadingFadeIn');$('#banner-container').append(getLoadingBanner());$('#loadingBanner').fadeIn('slow');$('#banner-container').dequeue('banner');});
+	if(closestSpots == null){
+		$('#infoBanner').html(loading);
+		if(!$('#infoBanner').is(":visible")){
+			$('#banner-container').queue('banner',function(){$('#infoBanner').fadeIn('slow');$('#banner-container').dequeue('banner');});
+		}
 		$('#banner-container').dequeue('banner');
 		return;
 	}
 
-	if($('#loadingBanner').length){
-		$('#banner-container').queue('banner',function(){console.log('loadingFadeOut');$('#loadingBanner').fadeOut('slow');
-		$('#banner-container').dequeue('banner');})}
+	if($('#infoBanner').is(":visible")){
+		$('#banner-container').queue('banner',function(){$('#infoBanner').fadeOut('slow');$('#banner-container').dequeue('banner');});
+	}
 
 	var length = closestSpots.length;
 
@@ -101,18 +117,6 @@ function updateBannerContainer(){
 	$('#banner-container').dequeue('banner');
 }
 
-function initBannerContainer(){
-
-	console.log('init');
-
-	if(currentSpot == null){
-
-		$('#banner-container').queue('banner',function(){$('#banner-container').empty();$('#banner-container').append(getInfoBanner());$('#infoBanner').fadeIn();$('#banner-container').dequeue('banner');});
-	}
-
-	$('#banner-container').dequeue('banner');
-}
-
 /** Other methods **/
 
 function logOut(){
@@ -126,7 +130,6 @@ function createRequestForReverseGeocoding(lat,lon){
 function geolocalize(){
 
 	$('#geolocalizeButton').button('loading');
-	emptyBannerContainer();
 
 	if(!navigator.geolocation){
 		alert("Votre navigateur ne permet pas la géolocalisation");
@@ -152,7 +155,6 @@ function geolocalize(){
 					$("#localisationInput").val(currentSpot.address);
 				}
 				$('#geolocalizeButton').button('reset');
-				updateBannerContainer();
 				findSpots();
 			},
 			error:function(){$('#geolocalizeButton').button('reset');initBannerContainer();}
@@ -189,6 +191,8 @@ function releaseSpot(){
 }
 
 function findSpots(){
+
+	updateBannerContainer();
 
 	console.log('findSpots');
 
