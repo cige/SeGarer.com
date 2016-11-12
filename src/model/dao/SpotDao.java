@@ -23,14 +23,14 @@ public class SpotDao extends Dao<Spot> {
 	/**
 	 * Return a list with at most n spots.
 	 */
-	public List<Spot> findClosestSposts(Address position, float dist, int n) {
+	public List<Spot> findClosestSposts(Double latitude,Double longitude, float dist, int n) {
 
-		Double longMin = position.getLongitude()
-				- (dist / Math.abs(Math.cos(Math.toRadians(position.getLatitude() * 69))));
-		Double longMax = position.getLongitude()
-				+ (dist / Math.abs(Math.cos(Math.toRadians(position.getLatitude() * 69))));
-		Double latMin = position.getLatitude() - (dist / 69);
-		Double latMax = position.getLatitude() + (dist / 69);
+		Double longMin = longitude
+				- (dist / Math.abs(Math.cos(Math.toRadians(latitude * 69))));
+		Double longMax = longitude
+				+ (dist / Math.abs(Math.cos(Math.toRadians(latitude * 69))));
+		Double latMin = latitude - (dist / 69);
+		Double latMax = latitude + (dist / 69);
 		Query query = session.createQuery(
 				"from Spot as s where s.address.longitude between :lgmin and :lgmax and s.address.latitude between :ltmin and :ltmax");
 

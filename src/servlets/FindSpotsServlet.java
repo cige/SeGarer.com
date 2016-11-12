@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import model.dao.DaoFactory;
-import model.entities.Address;
 import model.entities.Spot;
 import model.entities.User;
 
@@ -45,23 +44,23 @@ public class FindSpotsServlet extends HttpServlet {
 			return;
 		}
 
-		String longitude = req.getParameter("longitude");
-		String latitude = req.getParameter("latitude");
-		String formatedAddress = req.getParameter("address");
+		Object longitude = req.getParameter("longitude");
+		Object latitude = req.getParameter("latitude");
 
 		if (longitude == null || latitude == null) {
 			resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
 			return;
 		}
 
-		Address currentPos = new Address(new Double(longitude), new Double(latitude), formatedAddress);
+		longitude = Double.valueOf((String) longitude);
+		latitude = Double.valueOf((String)latitude);
 
 		resp.setContentType("application/json");
 
 		JsonObjectBuilder json = Json.createObjectBuilder();
 		JsonArrayBuilder spots = Json.createArrayBuilder();
 
-		List<Spot> list = DaoFactory.getInstance().getSpotDao().findClosestSposts(currentPos, DISTANCE_MAX,  RESULTS_NUMBER);
+		List<Spot> list = DaoFactory.getInstance().getSpotDao().findClosestSposts((Double)latitude,(Double)longitude, DISTANCE_MAX,  RESULTS_NUMBER);
 
 		for (int i = 0; i < RESULTS_NUMBER && i < list.size(); i++) {
 			spots.add(list.get(i).toJson());
@@ -72,7 +71,7 @@ public class FindSpotsServlet extends HttpServlet {
 		JsonWriter jsonWriter = Json.createWriter(resp.getOutputStream());
 		jsonWriter.writeObject(json.build());
 		jsonWriter.close();
-		
+
 		resp.setStatus(HttpServletResponse.SC_ACCEPTED);
 	}
 
