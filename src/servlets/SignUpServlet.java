@@ -21,11 +21,14 @@ public class SignUpServlet extends HttpServlet {
 
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String email = request.getParameter("email");
-		String pseudo = request.getParameter("pseudo");
-		String password = request.getParameter("password");
 
-		if (email == null || password == null || pseudo == null) {
+		String email = ServletUtil.getParam(request, "email");
+		String pseudo = ServletUtil.getParam(request, "pseudo");
+		String password = ServletUtil.getParam(request, "password");
+		String confirmation = ServletUtil.getParam(request, "password2");
+
+		if (email == null || password == null || pseudo == null || confirmation == null || !ServletUtil.isEmail(email)
+				|| !password.equals(confirmation)) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST);
 			return;
 		}

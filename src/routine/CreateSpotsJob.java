@@ -26,7 +26,6 @@ public class CreateSpotsJob implements Job {
 		Double latitude = new Double(((maxLat - minLat) * rand.nextDouble()) + minLat);
 		String formattedAddr = GoogleAPI.getFormattedAddress(latitude, longitude);
 		Address address = new Address(longitude, latitude, formattedAddr);
-		System.out.println(address);
 
 		DaoFactory factory = DaoFactory.getInstance();
 		User usr = factory.getUserDao().makeRandomUser();

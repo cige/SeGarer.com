@@ -35,7 +35,8 @@ function signUp(){
 	var data = {
 			email : email,
 			pseudo : pseudo,
-			password : password		
+			password : password,		
+			password2 : password2	
 	}
 	
 	var success = function(){

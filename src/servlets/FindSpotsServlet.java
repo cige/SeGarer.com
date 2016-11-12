@@ -11,14 +11,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import model.dao.DaoFactory;
 import model.entities.Spot;
-import model.entities.User;
 
 public class FindSpotsServlet extends HttpServlet {
-	public static final float DISTANCE_MAX = 1.86411f; //3 Km
+	public static final float DISTANCE_MAX = 1.609f * 5; // 3 Km
 
 	/**
 	 * 
@@ -30,30 +28,20 @@ public class FindSpotsServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-		HttpSession session = req.getSession(false);
-
-		if (session == null) {
+		if (!ServletUtil.isLogged(req)) {
 			resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-			return;
 		}
 
-		User user = (User) session.getAttribute("user");
-
-		if (user == null) {
-			resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-			return;
-		}
-
-		Object longitude = req.getParameter("longitude");
-		Object latitude = req.getParameter("latitude");
-
-		if (longitude == null || latitude == null) {
+		double longitude;
+		double latitude;
+		
+		try {
+			longitude = Double.valueOf(ServletUtil.getParam(req, "longitude"));
+			latitude = Double.valueOf(ServletUtil.getParam(req, "latitude"));
+		} catch (Exception e) {
 			resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
 			return;
 		}
-
-		longitude = Double.valueOf((String) longitude);
-		latitude = Double.valueOf((String)latitude);
 
 		resp.setContentType("application/json");
 
