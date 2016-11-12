@@ -5,14 +5,14 @@ var closestSpots = null;
 
 /** Banners **/
 
-var getBannerFromSpot = function(spot){
-	var res="<div class='list-group-item list-group-item-info banner banner-info'>";
+var getSpotBanner = function(spot,i){
+	var res="<div id='spotBanner"+i+"' class='list-group-item list-group-item-info banner banner-info'>";
 	res +=	"<div class='row'>";
-	res +="<div class='col-xs-7'>";
+	res +="<div class='col-xs-9'>";
 	res += spot.address;
 	res += "</div>";
-	res += "<div class='col-xs-5'>";
-	res += "Libéré il y a +"+ spot.time +" minutes par <a href='#'>"+ spot.user +"</a>";
+	res += "<div class='col-xs-3'>";
+	res += "Libéré il y a "+ spot.time +" minutes par <a href='#'>"+ spot.user +"</a>";
 	res += "</div></div><div class='row'><div class='col-xs-8'>";
 	res += "<span class='glyphicon glyphicon glyphicon-road' aria-hidden='true'></span>";
 	res += "-- min (-,-km)";
@@ -21,64 +21,96 @@ var getBannerFromSpot = function(spot){
 	return res;
 }
 
+var getLoadingBanner = function () {
+	var res ="<div id='loadingBanner' class='list-group-item list-group-item-info banner banner-info'>";
+	res += "<i class='fa fa-spinner fa-spin'></i> Recherche des places disponibles à proximité </div>";
+	return res;
+}
+
 var getInfoBanner = function(){
-	var res ="<div class='list-group-item list-group-item-success banner banner-info'>";
+	var res ="<div id='infoBanner' class='list-group-item list-group-item-success banner banner-info'>";
 	res += "Pour commencer à utiliser l'application, veuillez saisir votre adresse actuelle,";
 	res +="ou appuyer sur <span class='glyphicon glyphicon-screenshot' aria-hidden='true'></span></div>";
 	return res;
 }
 
+var getReleaseBanner = function(){
+	var res ="<div id='releaseBanner' class='list-group-item list-group-item-warning banner banner-release'>";
+	res += "<div class='row'><div class='col-xs-12'>";
+	res += "Vous quittez une place de stationnement ? Faites en profiter la communauté ! ";
+	res += "<button id='releaseSpotButton' onClick='releaseSpot()' type='button' class='btn btn-warning pull-right' ";
+	res+= "data-loading-text=\"<i class='fa fa-spinner fa-spin'></i>\">Libérer ma place</button>";
+	res += "</div></div></div>";
+	return res;
+}
+
 var getNoResultBanner = function(){
-	var res ="<div class='list-group-item list-group-item-danger banner banner-no-result'>";
+	var res ="<div id='noResultBanner' class='list-group-item list-group-item-danger banner banner-no-result'>";
 	res +=	"<div class='row'>";
 	res +=	"<div class='col-xs-9'>";
 	res += "Malheureusement, nous n'avons trouvé aucune place près de vous...";
 	res += "</div>";
 	res +=	"<div class='col-xs-3'>";
-	res +="<button id='searchAgainButton' type='button' class='btn btn-danger pull-right'>";
+	res +="<button id='searchAgainButton' onClick='searchAgain();' type='button' class='btn btn-danger pull-right'>";
 	res += "Relancer</button></div>";
 	res +="</div>";
 	res +="</div>";
 	return res;
 }
 
+function emptyBannerContainer(){
+	console.log('empty');
+	$('#banner-container').queue('banner',function(){
+		$('#banner-container').children().fadeOut('slow',function(){
+			$('#banner-container').empty();	
+		});});
+	$('#banner-container').dequeue('banner');
+}
+
 function updateBannerContainer(){
 
-	var container = $("#banner-container");
-	container.empty();
+	console.log('update');
 
-	if(currentSpot == null){
-		container.append(getInfoBanner());
+	if(currentSpot!= null && ! $('#releaseBanner').length){
+		$('#banner-container').queue('banner',function(){$('#banner-container').append(getReleaseBanner());$('#releaseBanner').fadeIn('slow');$('#banner-container').dequeue('banner');});
+	}
+
+	if(closestSpots == null && ! $('#loadingBanner').length){
+		$('#banner-container').queue('banner',function(){console.log('loadingFadeIn');$('#banner-container').append(getLoadingBanner());$('#loadingBanner').fadeIn('slow');$('#banner-container').dequeue('banner');});
+		$('#banner-container').dequeue('banner');
 		return;
 	}
 
-	if(closestSpots != null){
-		var length = closestSpots.length;
-		if(length==0){
-			container.append(getNoResultBanner());
-		}else{
-			for(var i=0;i<length;i++){
-				container.append(getBannerFromSpot(closestSpots[i]));
-			}
-		}
+	if($('#loadingBanner').length){
+		$('#banner-container').queue('banner',function(){console.log('loadingFadeOut');$('#loadingBanner').fadeOut('slow');
+		$('#banner-container').dequeue('banner');})}
+
+	var length = closestSpots.length;
+
+	if(length==0){
+		$('#banner-container').queue('banner',function(){$('#banner-container').append(getNoResultBanner());$('#noResultBanner').fadeIn('slow');$('#banner-container').dequeue('banner');});
 	}
+	else{
 
-
+		$('#banner-container').queue('banner',function(){
+			for(var i=0;i<closestSpots.length;i++){
+				$('#banner-container').append(getSpotBanner(closestSpots[i],i));
+				console.log('spot'+i);$('#spotBanner'+i).fadeIn('slow');
+			}});
+	}
+	$('#banner-container').dequeue('banner');
 }
 
-/**
- * Buttons
- */
+function initBannerContainer(){
 
-function setButtonOnClick(buttonId,fun){
-	$(buttonId).on('click',function() {
-		var btn = $(this);
-		btn.attr('data-loading-text',"<i class='fa fa-spinner fa-spin'></i>");
-		btn.button('loading');
-		window.setTimeout(fun, 600);
-		btn.button('reset');
+	console.log('init');
 
-	});
+	if(currentSpot == null){
+
+		$('#banner-container').queue('banner',function(){$('#banner-container').empty();$('#banner-container').append(getInfoBanner());$('#infoBanner').fadeIn();$('#banner-container').dequeue('banner');});
+	}
+
+	$('#banner-container').dequeue('banner');
 }
 
 /** Other methods **/
@@ -89,13 +121,13 @@ function logOut(){
 
 function createRequestForReverseGeocoding(lat,lon){
 	return "https://maps.googleapis.com/maps/api/geocode/json?latlng="+lat+","+lon+"&key=AIzaSyDaDyG8ylVLCq-sjdbLeBn07LtN81zWETo";
-
 }
 
 function geolocalize(){
-	
+
 	$('#geolocalizeButton').button('loading');
-	
+	emptyBannerContainer();
+
 	if(!navigator.geolocation){
 		alert("Votre navigateur ne permet pas la géolocalisation");
 		return;
@@ -120,8 +152,10 @@ function geolocalize(){
 					$("#localisationInput").val(currentSpot.address);
 				}
 				$('#geolocalizeButton').button('reset');
+				updateBannerContainer();
 				findSpots();
-			}
+			},
+			error:function(){$('#geolocalizeButton').button('reset');initBannerContainer();}
 		})
 
 			});
@@ -129,15 +163,20 @@ function geolocalize(){
 
 function releaseSpot(){
 
+	$('#releaseSpotButton').button('loading');
+
 	if(currentSpot == null){
 		alert('veuillez saisir votre position');
 		return;
 	}
 
 	var success = function(jqXHR,textStatus,errorThrown){
+		$('#releaseSpotButton').button('reset');
+		alert('merci');
 	}
 
 	var error = function(jqXHR,textStatus,errorThrown){
+		$('#releaseSpotButton').button('reset');
 	}
 
 	$.ajax({
@@ -150,6 +189,8 @@ function releaseSpot(){
 }
 
 function findSpots(){
+
+	console.log('findSpots');
 
 	if(currentSpot == null){
 		alert('veuillez saisir votre position');
@@ -174,4 +215,5 @@ function findSpots(){
 	});
 }
 
+$(document).ready(initBannerContainer());
 

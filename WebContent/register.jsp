@@ -20,10 +20,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<link rel="stylesheet" type="text/css"
-	href="https://fonts.googleapis.com/css?family=Lobster">
-<link rel="stylesheet" type="text/css"
-	href="https://fonts.googleapis.com/css?family=Raleway">
+<link href="https://fonts.googleapis.com/css?family=Lobster|Raleway" rel="stylesheet">
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="css/main.css" rel="stylesheet">
 

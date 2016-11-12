@@ -2,7 +2,7 @@ body {
 	font-family: 'Raleway';
 }
 
-.brand{
+.brand {
 	font-family: 'Lobster';
 }
 
@@ -29,26 +29,7 @@ body {
 	width: 10%;
 }
 
-#banner-container {
-	
-}
-
 .banner {
+	display: none;
 	max-height: 90px;
-}
-
-.banner-info {
-	
-}
-
-.banner-spot {
-	
-}
-
-.banner-release {
-	
-}
-
-.banner-no-result{
-	
 }

@@ -21,9 +21,9 @@ public class Vehicle {
 
 	@Column
 	private Integer size;
-
-	private Vehicle() {
-
+	
+	private Vehicle(){
+		
 	}
 
 	public Vehicle(String model, int size) {

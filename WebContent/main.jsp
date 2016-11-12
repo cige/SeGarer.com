@@ -30,10 +30,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<link rel="stylesheet" type="text/css"
-	href="https://fonts.googleapis.com/css?family=Lobster">
-<link rel="stylesheet" type="text/css"
-	href="https://fonts.googleapis.com/css?family=Raleway">
+<link href="https://fonts.googleapis.com/css?family=Lobster|Raleway" rel="stylesheet">
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link
 	href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css"
@@ -77,30 +74,9 @@
 				<span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span>
 			</button>
 		</div>
-
-
-
-		<div id="banner-container" class="list-group">
-			<div
-				class="list-group-item list-group-item-success banner banner-proposal">
-				Pour commencer à utiliser l'application, veuillez saisir votre
-				adresse actuelle, ou appuyer sur <span
-					class="glyphicon glyphicon-screenshot" aria-hidden="true"></span>
-
-			</div>
-			<div
-				class="list-group-item list-group-item-warning banner banner-release">
-				<div class="row">
-					<div class="col-xs-12">
-						Vous quittez une place de stationnement ? Faites en profiter la
-						communauté !
-						<button id="releaseSpotButton" type="button"
-							class="btn btn-warning pull-right">Libérer ma
-							place</button>
-					</div>
-				</div>
-			</div>
-		</div>
+		
+		<div id="banner-container" class="list-group"></div>
+		
 	</div>
 
 	<script src="js/jquery-3.1.1.min.js"></script>
