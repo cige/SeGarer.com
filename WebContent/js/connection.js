@@ -67,6 +67,7 @@ function signIn(){
 
 function display(){
 	$('#form-container').fadeIn('slow');
+	$('[data-toggle="tooltip"]').tooltip();
 }
 
 $(document).ready(display());

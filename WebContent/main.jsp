@@ -50,7 +50,7 @@
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav navbar-right navbar-btn">
 
-					<li class="dropdown"><a href="#"
+					<li id='main-menu' class="dropdown"><a href="#"
 						class="dropdown-toggle btn btn-default" id="usertools"
 						data-toggle="dropdown" role="button" aria-haspopup="true"
 						aria-expanded="false"> <span class="glyphicon glyphicon-user"></span>
@@ -77,10 +77,10 @@
 			</span> <input id="main-input" type="text" class="form-control"
 				placeholder="Indiquez votre adresse..." onFocus="hideContainer(alertsContainer);hideContainer(resultsContainer)" onBlur="displayContainer(alertsContainer);displayContainer(resultsContainer)"> <span
 				class="input-group-btn">
-				<button id='search-button' class="btn btn-info" onClick="findSpots()" type="button">
+				<button id='search-button' data-loading-text="<i class='fa fa-spinner fa-spin'></i>" class="btn btn-info disabled" onClick="findSpots()" type="button">
 					<span class="search-spot glyphicon glyphicon-log-in" aria-hidden="true"></span>
 				</button>
-				<button id='release-button' class="btn btn-warning" onClick="releaseSpot()"
+				<button id='release-button' data-loading-text="<i class='fa fa-spinner fa-spin'></i>" class="btn btn-warning disabled" onClick="releaseSpot()"
 					type="button">
 					<span class="release-spot glyphicon glyphicon-log-out" aria-hidden="true"></span>
 				</button>
@@ -89,7 +89,7 @@
 
 		<div id="alerts-container"></div>
 		
-		<div id="results-container" class="list-group"></div>
+		<div id="results-container" class="panel-group"></div>
 
 	</div>
 
