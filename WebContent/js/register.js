@@ -51,7 +51,7 @@ function signUp(){
 
 	var success = function(){
 		$('#registerButton').button('reset');
-		window.location.replace("main.jsp");
+		$('#form-container').fadeOut('slow',function(){window.location.replace("/DAR/main.jsp");});
 	}
 
 	var error = function(jqXHR,textStatus,errorThrown){

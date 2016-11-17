@@ -25,7 +25,7 @@ import model.entities.Address;
 import model.entities.Spot;
 
 public class FindSpotsServlet extends HttpServlet {
-	public static final float DISTANCE_MAX = 1.609f * 5; // 3 Km
+	public static final float DISTANCE_MAX = 1.609f * 2; // 3km
 
 	/**
 	 * 

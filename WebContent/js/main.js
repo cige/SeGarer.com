@@ -1,17 +1,26 @@
 /** Global variables **/
 
 var currentSpot = null;
-var closestSpots = null;
+var aimedSpot = null;
+var resultsSpots = null;
+var autocomplete = null;
+var isGeolocalized = false;
 
 /** Messages **/
 
-var welcome = "Pour commencer à utiliser l'application, veuillez saisir votre adresse actuelle, ou appuyer sur <span class='glyphicon glyphicon-screenshot' aria-hidden='true'></span>";
+var gift = "<span class='glyphicon glyphicon-gift' aria-hidden='true'></span>";
+var geoloc = "<span class='glyphicon glyphicon-screenschot' aria-hidden='true'></span>";
+var welcome = "<div class='alert alert-info'>Pour commencer à utiliser l'application, veuillez saisir votre adresse actuelle ou utilisez la <label for='geoloc-button'>géolocalisation</label>";
+var noresults = "<div class='alert alert-warning'>Malheureusement, aucune place n'a été trouvée près de votre localisation, essayez de <label for='search-button'>relancer la recherche</label>";
+var choice = "<div class='alert alert-info'>Souhaitez vous <label for='search-button'>trouver une place</label> ou bien <label for='release-button'>libérer une place</label> ?";
 var loading = "<i class='fa fa-spinner fa-spin'></i> Recherche des places disponibles à proximité ...";
+var thanks = "Merci!"
+
 
 /** Banners **/
 
 var getSpotBanner = function(spot,i){
-	var res="<div id='spotBanner"+i+"' class='list-group-item list-group-item-info banner banner-info'>";
+	var res="<div id='spot-banner"+i+"' class='list-group-item list-group-item-info banner banner-info'>";
 	res +=	"<div class='row'>";
 	res +="<div class='col-xs-9'>";
 	res += spot.address;
@@ -26,23 +35,13 @@ var getSpotBanner = function(spot,i){
 	return res;
 }
 
-var getInfoBanner = function(){
-	var res ="<div id='infoBanner' class='list-group-item list-group-item-success banner banner-info'></div>";
-	return res;
-}
-
-var getReleaseBanner = function(){
-	var res ="<div id='releaseBanner' class='list-group-item list-group-item-warning banner banner-release'>";
-	res += "<div class='row'><div class='col-xs-12'>";
-	res += "Vous quittez une place de stationnement ? Faites en profiter la communauté ! ";
-	res += "<button id='releaseSpotButton' onClick='releaseSpot()' type='button' class='btn btn-warning pull-right' ";
-	res+= "data-loading-text=\"<i class='fa fa-spinner fa-spin'></i>\">Libérer ma place</button>";
-	res += "</div></div></div>";
+var getInfoBanner = function(message){
+	var res ="<div id='info-banner' class='list-group-item list-group-item-success banner banner-info'>"+ message +"</div>";
 	return res;
 }
 
 var getNoResultBanner = function(){
-	var res ="<div id='noResultBanner' class='list-group-item list-group-item-danger banner banner-no-result'>";
+	var res ="<div id='no-result-banner' class='list-group-item list-group-item-danger banner banner-no-result'>";
 	res +=	"<div class='row'>";
 	res +=	"<div class='col-xs-9'>";
 	res += "Malheureusement, nous n'avons trouvé aucune place près de vous...";
@@ -55,66 +54,107 @@ var getNoResultBanner = function(){
 	return res;
 }
 
-function initBannerContainer(){
-
-	console.log('init');
-	if(currentSpot == null){
-
-		$('#banner-container').queue('banner',function(){$('#banner-container').empty();$('#banner-container').append(getInfoBanner());$('#infoBanner').html(welcome);$('#infoBanner').fadeIn();$('#banner-container').dequeue('banner');});
-	}
-
-	$('#banner-container').dequeue('banner');
+var getResultDiv = function(){
+	return "<div id='results'></div>";
 }
 
-function emptyBannerContainer(){
-	console.log('empty');
-	$('#banner-container').queue('banner',function(){
-		$('#banner-container').children().fadeOut('slow',function(){
-			$('#banner-container').empty();	
-		});});
-	$('#banner-container').dequeue('banner');
+/** Display methods **/
+
+function hideThenClearContainer(container,callback){
+	var clear = function(){
+		container.empty();
+		if(callback!=undefined)
+			callback();
+	}
+	hideContainer(container,clear);
 }
 
-function updateBannerContainer(){
-	console.log('update');
+function hideContainer(container,callback){
+	container.fadeOut('slow',callback);
+}
 
-	if(currentSpot == null){
-		emptyBannerContainer();
-		initBannerContainer();
+function displayContainer(container,callback){
+	container.fadeIn('slow',callback);
+}
+
+function changeButtonContent(button,content,disable){
+	button.html(content);
+	if(disable == undefined)
+		return;
+	if(disable)
+		button.button('disable');
+	else
+		button.button('enable');
+}
+
+/** Results Display **/
+
+var resultsContainer =  $('#results-container');
+
+function displayResults(){
+
+	if(resultsSpots == null || resultsSpots.length == 0){
 		return;
 	}
-
-	if(currentSpot!= null && ! $('#releaseBanner').length){
-		$('#banner-container').queue('banner',function(){$('#banner-container').append(getReleaseBanner());$('#releaseBanner').fadeIn('slow');$('#banner-container').dequeue('banner');});
+	
+	for(var i=0;i<resultsSpots.length;i++){
+		resultsContainer.append(getSpotBanner(resultsSpots[i],i));
 	}
 
-	if(closestSpots == null){
-		$('#infoBanner').html(loading);
-		if(!$('#infoBanner').is(":visible")){
-			$('#banner-container').queue('banner',function(){$('#infoBanner').fadeIn('slow');$('#banner-container').dequeue('banner');});
-		}
-		$('#banner-container').dequeue('banner');
+	displayContainer(resultsContainer);
+}
+
+/** Alerts Display **/
+
+var alertsContainer = $('#alerts-container');
+
+function initAlerts(){
+	alertsContainer.html(welcome);
+	displayContainer(alertsContainer);
+}
+
+function displayChoiceAlert(){
+	var callback = function(){
+		alertsContainer.html(choice);
+		displayContainer(alertsContainer);
+	}
+	hideThenClearContainer(alertsContainer, callback);
+
+}
+
+function displayNoResultAlert(){
+	var callback = function(){
+		alertsContainer.html(noresults);
+		displayContainer(alertsContainer);
+	}
+	hideThenClearContainer(alertsContainer, callback);	
+}
+
+/** Google auto-complete **/
+
+function initAutocomplete() {
+	// Create the autocomplete object, restricting the search to geographical
+	// location types.
+	autocomplete = new google.maps.places.Autocomplete(
+			/** @type {!HTMLInputElement} */(document.getElementById('main-input')),
+			{types: ['geocode']});
+
+	// When the user selects an address from the dropdown, populate the address
+	// fields in the form.
+	autocomplete.addListener('place_changed', fillInAddress);
+}
+
+function fillInAddress() {
+	// Get the place details from the autocomplete object.
+	var place = autocomplete.getPlace();
+	if(place==undefined){
+		currentSpot = null;
 		return;
 	}
-
-	if($('#infoBanner').is(":visible")){
-		$('#banner-container').queue('banner',function(){$('#infoBanner').fadeOut('slow');$('#banner-container').dequeue('banner');});
-	}
-
-	var length = closestSpots.length;
-
-	if(length==0){
-		$('#banner-container').queue('banner',function(){$('#banner-container').append(getNoResultBanner());$('#noResultBanner').fadeIn('slow');$('#banner-container').dequeue('banner');});
-	}
-	else{
-
-		$('#banner-container').queue('banner',function(){
-			for(var i=0;i<closestSpots.length;i++){
-				$('#banner-container').append(getSpotBanner(closestSpots[i],i));
-				console.log('spot'+i);$('#spotBanner'+i).fadeIn('slow');
-			}});
-	}
-	$('#banner-container').dequeue('banner');
+	currentSpot ={};
+	currentSpot.latitude = place.geometry.location.lat;
+	currentSpot.longitude = place.geometry.location.lng;
+	displayChoiceAlert();
 }
 
 /** Other methods **/
@@ -129,7 +169,9 @@ function createRequestForReverseGeocoding(lat,lon){
 
 function geolocalize(){
 
-	$('#geolocalizeButton').button('loading');
+	$('#geoloc-button').button('loading');
+
+	hideThenClearContainer(alertsContainer);
 
 	if(!navigator.geolocation){
 		alert("Votre navigateur ne permet pas la géolocalisation");
@@ -148,16 +190,17 @@ function geolocalize(){
 			dataType:"json",
 			success:function(data){
 				if(data.results.length == 0){
-					$("#localisationInput").val(currentSpot.longitude+","+currentSpot.latitude);
+					$("#main-input").val(currentSpot.longitude+","+currentSpot.latitude);
 				}
 				else{
 					currentSpot.address = data.results[0].formatted_address;
-					$("#localisationInput").val(currentSpot.address);
+					$("#main-input").val(currentSpot.address);
 				}
-				$('#geolocalizeButton').button('reset');
-				findSpots();
+				isGeolocalized = true;
+				$('#geoloc-button').button('reset');
+				displayChoiceAlert();
 			},
-			error:function(){$('#geolocalizeButton').button('reset');initBannerContainer();}
+			error:function(){$('#geoloc-button').button('reset')}
 		})
 
 			});
@@ -165,20 +208,23 @@ function geolocalize(){
 
 function releaseSpot(){
 
-	$('#releaseSpotButton').button('loading');
+	$('#release-button').button('loading');
 
 	if(currentSpot == null){
 		alert('veuillez saisir votre position');
+		$('#release-button').button('reset');
 		return;
 	}
 
 	var success = function(jqXHR,textStatus,errorThrown){
-		$('#releaseSpotButton').button('reset');
-		alert('merci');
+		var button = $('#release-button');
+		button.button('reset');
+		button.button('disable');
+		button.button('label',thanks);
 	}
 
 	var error = function(jqXHR,textStatus,errorThrown){
-		$('#releaseSpotButton').button('reset');
+		$('#release-button').button('reset');
 	}
 
 	$.ajax({
@@ -192,7 +238,7 @@ function releaseSpot(){
 
 function findSpots(){
 
-	updateBannerContainer();
+	hideThenClearContainer(alertsContainer);
 
 	console.log('findSpots');
 
@@ -202,8 +248,11 @@ function findSpots(){
 	}
 
 	var success = function(data){
-		closestSpots = data.results;
-		updateBannerContainer();
+		resultsSpots = data.results;
+		if(resultsSpots.length == 0)
+			displayNoResultAlert();
+		else
+			displayResults();
 	}
 
 	var error = function(jqXHR,textStatus,errorThrown){
@@ -219,5 +268,9 @@ function findSpots(){
 	});
 }
 
-$(document).ready(initBannerContainer());
+function init(){
+	$('#main-container').fadeIn('slow',initAlerts());
+}
+
+$(document).ready(init());
 

@@ -13,7 +13,7 @@ import org.quartz.impl.StdSchedulerFactory;
 public class QuartzListener
 implements ServletContextListener{
 
-	private final static boolean BOTS = true;
+	private final static boolean BOTS = false;
 	private final static boolean PURGE = true;
 
 	Scheduler scheduler = null;

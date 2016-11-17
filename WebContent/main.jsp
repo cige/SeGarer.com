@@ -42,9 +42,7 @@
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
 			<div class="navbar-header brand">
-				<h2>
-					SeGarer.com
-				</h2>
+				<h2>SeGarer.com</h2>
 			</div>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
@@ -68,22 +66,39 @@
 	</nav>
 	<div id="main-container" class="container-fluid">
 
-		<div id="input-container" class="form-horizontal form-group">
-			<input id="localisationInput" type=text
-				class="form-control col-xs-11">
-			<button id="geolocalizeButton" onClick="geolocalize()" type="button"
-				data-loading-text="<i class='fa fa-spinner fa-spin'></i>"
-				class="btn btn-default col-xs-1">
-				<span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span>
-			</button>
+		<div id="input-container" class="input-group">
+			<span class="input-group-btn">
+				<button id="geoloc-button" class="btn btn-default"
+					onClick="geolocalize()"
+					data-loading-text="<i class='fa fa-spinner fa-spin'></i>"
+					type="button">
+					<span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span>
+				</button>
+			</span> <input id="main-input" type="text" class="form-control"
+				placeholder="Indiquez votre adresse..." onFocus="hideContainer(alertsContainer);hideContainer(resultsContainer)" onBlur="displayContainer(alertsContainer);displayContainer(resultsContainer)"> <span
+				class="input-group-btn">
+				<button id='search-button' class="btn btn-info" onClick="findSpots()" type="button">
+					<span class="search-spot glyphicon glyphicon-log-in" aria-hidden="true"></span>
+				</button>
+				<button id='release-button' class="btn btn-warning" onClick="releaseSpot()"
+					type="button">
+					<span class="release-spot glyphicon glyphicon-log-out" aria-hidden="true"></span>
+				</button>
+			</span>
 		</div>
 
-		<div id="banner-container" class="list-group"></div>
+		<div id="alerts-container"></div>
+		
+		<div id="results-container" class="list-group"></div>
 
 	</div>
 
 	<script src="js/jquery-3.1.1.min.js"></script>
 	<script src="bootstrap/js/bootstrap.min.js"></script>
-	<script src="js/main.js"></script>
+	<script src="js/main.js" async></script>
+	<script
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQrG6Qo0cixNmFOTWgmxwEq_WFV5eiGn0&signed_in=true&libraries=places&callback=initAutocomplete"
+		async defer></script>
+
 </body>
 </html>

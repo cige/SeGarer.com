@@ -1,7 +1,7 @@
 $('#signInButton').on('click',function() {
-    var $btn = $(this);
-    $btn.button('loading');
-    signIn();
+	var $btn = $(this);
+	$btn.button('loading');
+	signIn();
 });
 
 $('#registerButton').on('click',function() {
@@ -11,7 +11,7 @@ $('#registerButton').on('click',function() {
 function signIn(){
 
 	var ok = true;
-				
+
 	var login = document.getElementById('login').value;
 	var password = document.getElementById('password').value;
 
@@ -36,7 +36,7 @@ function signIn(){
 
 	var success = function(){
 		$('#signInButton').button('reset');
-		window.location.replace("main.jsp");
+		$('#form-container').fadeOut('slow',function(){window.location.replace("/DAR/main.jsp");});
 	}
 
 	var error = function(jqXHR,textStatus,errorThrown){
@@ -52,7 +52,7 @@ function signIn(){
 		}
 
 		alert('error: ' + jqXHR.status);
-		
+
 		$('#signInButton').button('reset');
 	}
 

@@ -4,38 +4,40 @@ body {
 
 .brand {
 	font-family: 'Lobster';
-	color : black;
+	color: black;
 }
 
 #main-container {
 	max-width: 700px;
 	margin: auto;
-}
-
-#input-container {
-	height: 35px;
-}
-
-#localisationInput {
-	height: 100%;
-	width: 100%;
-	padding-right: 10%;
-	margin: initial;
-}
-
-#geolocalizeButton {
-	padding: 0px;
-	height: 99%;
-	margin-left: -10%;
-	width: 10%;
-}
-
-.banner {
 	display: none;
 }
 
-#form-container{
+#results-container {
+	display: none;
+}
+
+#alerts-container {
+	display:none;
+	height: 35px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+#form-container {
 	max-width: 400px;
 	margin: auto;
 	display: none;
+}
+
+.free-spot {
+    background-image:url("../img/freespot.png");
+    height: 40px;
+    width: 40px;
+}
+
+.full-spot {
+    background:url("../img/fullspot.png");
+    height: 40px;
+    width: 40px;
 }
