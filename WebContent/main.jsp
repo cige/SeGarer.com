@@ -75,7 +75,7 @@
 					<span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span>
 				</button>
 			</span> <input id="main-input" type="text" class="form-control"
-				placeholder="Indiquez votre adresse..." onFocus="hideContainer(alertsContainer);hideContainer(resultsContainer)" onBlur="displayContainer(alertsContainer);displayContainer(resultsContainer)"> <span
+				placeholder="Indiquez votre adresse..." onFocus="hideContainer(alertsContainer);hideContainer(resultsContainer)" onBlur="inputBlurred()"> <span
 				class="input-group-btn">
 				<button id='search-button' data-loading-text="<i class='fa fa-spinner fa-spin'></i>" class="btn btn-info disabled" type="button">
 					<span class="search-spot glyphicon glyphicon-log-in" aria-hidden="true"></span>
@@ -95,10 +95,10 @@
 
 	<script src="js/jquery-3.1.1.min.js"></script>
 	<script src="bootstrap/js/bootstrap.min.js"></script>
-	<script src="js/main.js" async></script>
+	<script src="js/main.js"></script>
 	<script
 		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQrG6Qo0cixNmFOTWgmxwEq_WFV5eiGn0&signed_in=true&libraries=places&callback=initAutocomplete"
-		async defer></script>
+		defer></script>
 
 </body>
 </html>

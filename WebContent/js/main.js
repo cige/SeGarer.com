@@ -11,7 +11,7 @@ var isGeolocalized = false;
 var gift = "<span class='glyphicon glyphicon-gift' aria-hidden='true'></span>";
 var geoloc = "<span class='glyphicon glyphicon-screenschot' aria-hidden='true'></span>";
 var welcome = "<div class='alert alert-success'>Pour commencer à utiliser l'application, veuillez <label for='main-input'><mark>saisir votre adresse actuelle</mark></label> ou utilisez la <label for='geoloc-button'><mark>géolocalisation</mark></label>";
-var noresults = "<div class='alert alert-error'>Malheureusement, aucune place n'a été trouvée près de votre localisation, essayez de <label for='search-button'>relancer la recherche</label>";
+var noresults = "<div class='alert alert-success'>Malheureusement, aucune place n'a été trouvée près de votre localisation, essayez de <label for='search-button'><mark>relancer la recherche</mark></label> dans quelques instants ...";
 var choice = "<div class='alert alert-success'>Souhaitez vous <label for='search-button'><mark>trouver une place</mark></label> ou bien <label for='release-button'><mark>libérer une place</mark></label> ?";
 var thanks = "<div class='alert alert-warning'>Libération enregistrée ! La communauté vous remercie pour cette place de stationnement !</div>";
 var release =  "<span class='search-spot glyphicon glyphicon-log-out' aria-hidden='true'></span>";
@@ -19,7 +19,7 @@ var search = "<span class='search-spot glyphicon glyphicon-log-in' aria-hidden='
 var geoloc = "<span class='glyphicon glyphicon-screenshot' aria-hidden='true'></span>"
 
 
-var getSpotResult = function(spot,i){
+	var getSpotResult = function(spot,i){
 	var id = "spot-banner" + i;
 	var res="<div id='"+id+"' class='panel panel-info''>";
 	res += "<div class='panel-heading'>" +spot.address + "<div class='pull-right'> Certitude: "+spot.purcentage+"%</div></div>";
@@ -119,8 +119,14 @@ function enableButton(button,fun){
 	button.on("click",fun)
 }
 
-function resetButton(button,content){
+function setButtonValue(button,content){
 	button.html(content);
+}
+
+function resetAllButtons(){
+	setButtonValue(releaseButton,release);
+	setButtonValue(searchButton,search);
+	setButtonValue(geolocButton,geoloc);
 }
 
 function setLoading(button){
@@ -162,18 +168,33 @@ function fillInAddress() {
 	currentSpot ={};
 	currentSpot.latitude = place.geometry.location.lat;
 	currentSpot.longitude = place.geometry.location.lng;
+	currentSpot.address = $("#main-input").val();
 	enableAllButtons();
 	alertsContainer.html(choice);
-	displayContainer(alertsContainer);
 }
 
 /** Other methods **/
 
-function reset(){
+function inputBlurred(){
+	if(currentSpot != null){
+		if($('#main-input').val()==""){
+			resetApp();
+		}
+		else
+			$("#main-input").val(currentSpot.address);
+	}
+	displayContainer(alertsContainer);
+	displayContainer(resultsContainer);
+}
+
+function resetApp(){
 	currentSpot = null;
-	disableAllButtons();
-	hideThenClearContainer(container, callback)
-	
+	resultsSpots = null;
+	resetAllButtons();
+	enableAllButtons();
+	hideThenClearContainer(alertsContainer);
+	hideThenClearContainer(resultsContainer);
+	initAlerts();
 }
 
 function logOut(){
@@ -214,11 +235,11 @@ function geolocalize(){
 					$("#main-input").val(currentSpot.address);
 				}
 				isGeolocalized = true;
-				resetButton(geolocButton,geoloc);
+				setButtonValue(geolocButton,geoloc);
 				enableAllButtons();
 				displayChoiceAlert();
 			},
-			error:function(){resetButton(geolocButton,geoloc)}
+			error:function(){setButtonValue(geolocButton,geoloc)}
 		})
 
 			});
@@ -239,13 +260,13 @@ function releaseSpot(){
 
 	var success = function(jqXHR,textStatus,errorThrown){
 		setTimeout(function(){
-			resetButton(releaseButton,release)
+			setButtonValue(releaseButton,release)
 			displayThanksAlert();
 		},1500);
 	}
 
 	var error = function(jqXHR,textStatus,errorThrown){
-		resetButton(releaseButton,release);
+		setButtonValue(releaseButton,release);
 		alert('error');
 	}
 
@@ -259,12 +280,12 @@ function releaseSpot(){
 }
 
 function findSpots(){
-	
+
 	if(currentSpot == null){
 		alert('veuillez saisir votre position');
 		return;
 	}
-	
+
 	setLoading(searchButton);
 	disableAllButtons();
 
@@ -274,10 +295,13 @@ function findSpots(){
 
 	var success = function(data){
 		setTimeout(function(){
-			resetButton(searchButton,search);
+			setButtonValue(searchButton,search);
 			resultsSpots = data.results;
-			if(resultsSpots.length == 0)
+			if(resultsSpots.length == 0){
 				displayNoResultAlert();
+				resetAllButtons();
+				enableAllButtons();
+			}
 			else
 				displayResults();
 		},1000);
@@ -285,7 +309,7 @@ function findSpots(){
 
 	var error = function(jqXHR,textStatus,errorThrown){
 		alert('error');
-		resetButton(searchButton,search);
+		setButtonValue(searchButton,search);
 		enableAllButtons();
 	}
 
