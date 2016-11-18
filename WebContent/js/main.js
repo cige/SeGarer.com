@@ -172,7 +172,7 @@ function fillInAddress() {
 /** Other methods **/
 
 function logOut(){
-	window.location.replace("/DAR/signOut");
+	window.location.replace("/SeGarer.com/signOut");
 }
 
 function createRequestForReverseGeocoding(lat,lon){

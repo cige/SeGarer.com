@@ -5,7 +5,7 @@ $('#signInButton').on('click',function() {
 });
 
 $('#registerButton').on('click',function() {
-	$('#form-container').fadeOut('slow',function(){window.location.replace("/DAR/register.jsp");});
+	$('#form-container').fadeOut('slow',function(){window.location.replace("/SeGarer.com/register.jsp");});
 });
 
 function signIn(){
@@ -36,7 +36,7 @@ function signIn(){
 
 	var success = function(){
 		$('#signInButton').button('reset');
-		$('#form-container').fadeOut('slow',function(){window.location.replace("/DAR/main.jsp");});
+		$('#form-container').fadeOut('slow',function(){window.location.replace("/SeGarer.com/main.jsp");});
 	}
 
 	var error = function(jqXHR,textStatus,errorThrown){

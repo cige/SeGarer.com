@@ -1,5 +1,5 @@
 $('#signInButton').on('click',function() {
-	$('#form-container').fadeOut('slow',function(){window.location.replace("/DAR/connection.jsp");});
+	$('#form-container').fadeOut('slow',function(){window.location.replace("/SeGarer.com/connection.jsp");});
 });
 
 $('#registerButton').on('click',function() {
@@ -51,7 +51,7 @@ function signUp(){
 
 	var success = function(){
 		$('#registerButton').button('reset');
-		$('#form-container').fadeOut('slow',function(){window.location.replace("/DAR/main.jsp");});
+		$('#form-container').fadeOut('slow',function(){window.location.replace("/SeGarer.com/main.jsp");});
 	}
 
 	var error = function(jqXHR,textStatus,errorThrown){
