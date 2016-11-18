@@ -40,6 +40,8 @@ function signIn(){
 	}
 
 	var error = function(jqXHR,textStatus,errorThrown){
+		
+		$('#signInButton').button('reset');
 
 		if(jqXHR.status == 496){
 			alert("mot de passe incorrect");
@@ -53,7 +55,7 @@ function signIn(){
 
 		alert('error: ' + jqXHR.status);
 
-		$('#signInButton').button('reset');
+		
 	}
 
 	$.ajax({

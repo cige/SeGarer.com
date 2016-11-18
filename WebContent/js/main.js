@@ -6,34 +6,30 @@ var resultsSpots = null;
 var autocomplete = null;
 var isGeolocalized = false;
 
-/** Messages **/
+/** HTML Content **/
 
 var gift = "<span class='glyphicon glyphicon-gift' aria-hidden='true'></span>";
 var geoloc = "<span class='glyphicon glyphicon-screenschot' aria-hidden='true'></span>";
-var welcome = "<div class='alert alert-success'>Pour commencer à utiliser l'application, veuillez saisir votre adresse actuelle ou utilisez la <label for='geoloc-button'>géolocalisation</label>";
+var welcome = "<div class='alert alert-success'>Pour commencer à utiliser l'application, veuillez <label for='main-input'><mark>saisir votre adresse actuelle</mark></label> ou utilisez la <label for='geoloc-button'><mark>géolocalisation</mark></label>";
 var noresults = "<div class='alert alert-error'>Malheureusement, aucune place n'a été trouvée près de votre localisation, essayez de <label for='search-button'>relancer la recherche</label>";
-var choice = "<div class='alert alert-success'>Souhaitez vous <label for='search-button'>trouver une place</label> ou bien <label for='release-button'>libérer une place</label> ?";
+var choice = "<div class='alert alert-success'>Souhaitez vous <label for='search-button'><mark>trouver une place</mark></label> ou bien <label for='release-button'><mark>libérer une place</mark></label> ?";
 var thanks = "<div class='alert alert-warning'>Libération enregistrée ! La communauté vous remercie pour cette place de stationnement !</div>";
+var release =  "<span class='search-spot glyphicon glyphicon-log-out' aria-hidden='true'></span>";
+var search = "<span class='search-spot glyphicon glyphicon-log-in' aria-hidden='true'></span>";
+var geoloc = "<span class='glyphicon glyphicon-screenshot' aria-hidden='true'></span>"
 
 
-/** Banners **/
-
-var getSpotBanner = function(spot,i){
+var getSpotResult = function(spot,i){
 	var id = "spot-banner" + i;
 	var res="<div id='"+id+"' class='panel panel-info''>";
-	res +=	"<div class='row'>";
-	res +="<div class='col-xs-9'>";
-	res += spot.address;
-	res += "</div>";
-	res += "<div class='col-xs-3'>";
-	res += "Certitude: "+spot.purcentage+"%";
-	res += "</div></div><div class='row'><div class='col-xs-8'>";
-	res += "<span class='glyphicon glyphicon glyphicon-road' aria-hidden='true'></span>";
-	res += spot.duration+" ("+spot.distance+")";
-	res += "</div><div class='col-xs-4'><button type='button' class='btn btn-default pull-right'>";
+	res += "<div class='panel-heading'>" +spot.address + "<div class='pull-right'> Certitude: "+spot.purcentage+"%</div></div>";
+	res += "<div class='panel-body'>";
+	res += "<span class='glyphicon glyphicon glyphicon-road' aria-hidden='true'></span> ";
+	res += spot.duration+" ("+spot.distance+")<button type='button' class='btn btn-default pull-right'>";
 	res += "J'y vais";
 	if(spot.intersted > 0)
-		res+="<span title='"+spot.intersted+" utilisateurs sont intéressés par cette place' class='badge'>"+spot.intersted+"</span></button></div></div></div>";
+		res+="<span title='"+spot.intersted+" utilisateurs sont intéressés par cette place' class='badge'>"+spot.intersted+"</span>";
+	res+="</button></div></div>";
 	return res;
 }
 
@@ -67,7 +63,7 @@ function displayResults(){
 	}
 
 	for(var i=0;i<resultsSpots.length;i++){
-		resultsContainer.append(getSpotBanner(resultsSpots[i],i));
+		resultsContainer.append(getSpotResult(resultsSpots[i],i));
 	}
 
 	displayContainer(resultsContainer);
@@ -115,23 +111,25 @@ var geolocButton = $('#geoloc-button');
 
 function disableButton(button){
 	button.addClass('disabled');
+	button.unbind('click');
 }
 
-function enableButton(button){
+function enableButton(button,fun){
 	button.removeClass('disabled');
+	button.on("click",fun)
 }
 
-function resetButton(button){
-	button.button('reset');
+function resetButton(button,content){
+	button.html(content);
 }
 
 function setLoading(button){
-	button.button('loading');
+	button.html("<i class='fa fa-spinner fa-spin'></i>");
 }
 
 function enableAllButtons(){
-	enableButton(releaseButton);
-	enableButton(searchButton);
+	enableButton(releaseButton,releaseSpot);
+	enableButton(searchButton,findSpots);
 }
 
 function disableAllButtons(){
@@ -171,6 +169,13 @@ function fillInAddress() {
 
 /** Other methods **/
 
+function reset(){
+	currentSpot = null;
+	disableAllButtons();
+	hideThenClearContainer(container, callback)
+	
+}
+
 function logOut(){
 	window.location.replace("/SeGarer.com/signOut");
 }
@@ -188,6 +193,7 @@ function geolocalize(){
 
 	setLoading(geolocButton);
 	hideThenClearContainer(alertsContainer);
+	hideThenClearContainer(resultsContainer);
 
 	navigator.geolocation.getCurrentPosition(function(position)
 			{
@@ -208,11 +214,11 @@ function geolocalize(){
 					$("#main-input").val(currentSpot.address);
 				}
 				isGeolocalized = true;
-				resetButton(geolocButton);
+				resetButton(geolocButton,geoloc);
 				enableAllButtons();
 				displayChoiceAlert();
 			},
-			error:function(){resetButton(geolocButton)}
+			error:function(){resetButton(geolocButton,geoloc)}
 		})
 
 			});
@@ -226,22 +232,20 @@ function releaseSpot(){
 	}
 
 	setLoading(releaseButton);
-	disableButton(searchButton);
+	disableAllButtons();
 
 	hideThenClearContainer(resultsContainer);
 	hideThenClearContainer(alertsContainer);
 
 	var success = function(jqXHR,textStatus,errorThrown){
 		setTimeout(function(){
-			resetButton(releaseButton)},1499);
-		setTimeout(function(){
-			disableAllButtons();
+			resetButton(releaseButton,release)
 			displayThanksAlert();
 		},1500);
 	}
 
 	var error = function(jqXHR,textStatus,errorThrown){
-		resetButton(button);
+		resetButton(releaseButton,release);
 		alert('error');
 	}
 
@@ -255,31 +259,34 @@ function releaseSpot(){
 }
 
 function findSpots(){
-
+	
 	if(currentSpot == null){
 		alert('veuillez saisir votre position');
 		return;
 	}
 	
 	setLoading(searchButton);
-	disableButton(releaseButton);
+	disableAllButtons();
 
 	hideThenClearContainer(resultsContainer);
 	hideThenClearContainer(alertsContainer);
 
 
 	var success = function(data){
-		resetButton(searchButton);
-		resultsSpots = data.results;
-		if(resultsSpots.length == 0)
-			displayNoResultAlert();
-		else
-			displayResults();
-		disableAllButtons();
+		setTimeout(function(){
+			resetButton(searchButton,search);
+			resultsSpots = data.results;
+			if(resultsSpots.length == 0)
+				displayNoResultAlert();
+			else
+				displayResults();
+		},1000);
 	}
 
 	var error = function(jqXHR,textStatus,errorThrown){
 		alert('error');
+		resetButton(searchButton,search);
+		enableAllButtons();
 	}
 
 	$.ajax({

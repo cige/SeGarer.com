@@ -57,9 +57,9 @@
 			</div>
 			<div class="form-group">
 				<a href="#" id="signInButton" type="button"
-					data-loading-text="Se connecter<i class='fa fa-spinner fa-spin'></i>"
-					class="btn btn-success">Se connecter</a> <a href="#" id="registerButton"
-					type="button" class="btn btn-danger pull-right">Pas encore
+					data-loading-text="<i class='fa fa-spinner fa-spin'></i> Se connecter"
+					class="btn btn-info">Se connecter</a> <a href="#" id="registerButton"
+					type="button" class="btn btn-warning pull-right">Pas encore
 					inscrit ?</span>
 				</a>
 			</div>

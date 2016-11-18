@@ -58,7 +58,7 @@
 					</a>
 						<ul class="dropdown-menu">
 							<li><a onClick="logOut()">Se déconnecter</a></li>
-							<li><a href="#">Gérer mes vehicules</a></li>
+							<li><a class="disabled" href="#">Gérer mes vehicules</a></li>
 						</ul></li>
 				</ul>
 			</div>
@@ -77,10 +77,10 @@
 			</span> <input id="main-input" type="text" class="form-control"
 				placeholder="Indiquez votre adresse..." onFocus="hideContainer(alertsContainer);hideContainer(resultsContainer)" onBlur="displayContainer(alertsContainer);displayContainer(resultsContainer)"> <span
 				class="input-group-btn">
-				<button id='search-button' data-loading-text="<i class='fa fa-spinner fa-spin'></i>" class="btn btn-info disabled" onClick="findSpots()" type="button">
+				<button id='search-button' data-loading-text="<i class='fa fa-spinner fa-spin'></i>" class="btn btn-info disabled" type="button">
 					<span class="search-spot glyphicon glyphicon-log-in" aria-hidden="true"></span>
 				</button>
-				<button id='release-button' data-loading-text="<i class='fa fa-spinner fa-spin'></i>" class="btn btn-warning disabled" onClick="releaseSpot()"
+				<button id='release-button' data-loading-text="<i class='fa fa-spinner fa-spin'></i>" class="btn btn-warning disabled"
 					type="button">
 					<span class="release-spot glyphicon glyphicon-log-out" aria-hidden="true"></span>
 				</button>
