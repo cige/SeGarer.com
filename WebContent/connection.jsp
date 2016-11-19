@@ -20,7 +20,8 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<link href="https://fonts.googleapis.com/css?family=Lobster|Raleway"
+<link
+	href="https://fonts.googleapis.com/css?family=Shrikhand|Lobster|Raleway"
 	rel="stylesheet">
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="css/main.css" rel="stylesheet">
@@ -34,7 +35,9 @@
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
 			<div class="navbar-header brand">
-				<h2>SeGarer.com</h2>
+				<h2>
+					<strong>SeGarer</strong>.com
+				</h2>
 			</div>
 		</div>
 	</nav>
