@@ -32,7 +32,7 @@
 	}
 
 	Long id = Long.valueOf(idSpot);
-	Spot spot = DaoFactory.getInstance().getSpotDao().getSpotById(id);
+	Spot spot = DaoFactory.getInstance().getSpotDao().getSpotFromId(id);
 %>
 <!DOCTYPE html>
 <html>
@@ -133,17 +133,18 @@
 		currentSpot.longitude =
 	<%=longitude%>
 		;
-		var destination = {};
-		destination.latitude =
+		var aimSpot = {};
+		aimSpot.latitude =
 	<%=spot.getAddress().getLatitude()%>
 		;
-		destination.longitude =
+		aimSpot.longitude =
 	<%=spot.getAddress().getLongitude()%>
 		;
-		destination.id =
+		aimSpot.id =
 	<%=spot.getId()%>
 		
 	</script>
+	
 	<script src="js/jquery-3.1.1.min.js"></script>
 	<script src="bootstrap/js/bootstrap.min.js"></script>
 	<script src="js/targetSpot.js"></script>

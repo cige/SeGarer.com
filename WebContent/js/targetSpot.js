@@ -1,8 +1,9 @@
 /** Google Direction API **/
 
 function initMap() {
+
 	var origin = {lat: currentSpot.latitude, lng: currentSpot.longitude};
-	var destination = {lat: destination.latitude, lng: destination.longitude};
+	var destination = {lat: aimSpot.latitude, lng: aimSpot.longitude};
 
 	var map = new google.maps.Map(document.getElementById('map'), {
 		center: origin,
@@ -59,6 +60,11 @@ function backToMenu(){
 function init(){
 	$('#main-container').fadeIn('slow');
 	$('#main-menu').fadeIn('slow');
+	setInterval(routine, 10000);
+}
+
+function routine(){
+	checkIsFree();
 }
 
 function checkIsFree(){
@@ -72,12 +78,10 @@ function checkIsFree(){
 	$.ajax({
 		url : 'isFree',
 		type : 'GET',
-		data : {spotId:destination.id},
+		data : {spotId:aimSpot.id},
 		error: error,
-		success: function(){consolge.log('libre')}
+		success: function(){console.log('libre')}
 	});
 }
-
-setInterval(checkIsFree(), 20000);
 
 $(document).ready(init());

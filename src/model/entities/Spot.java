@@ -152,7 +152,7 @@ public class Spot {
 		resBuilder.add("user", this.originUser.getPseudo());
 		resBuilder.add("intersted", interestedUsers);
 		resBuilder.add("purcentage", purcentage);
-		resBuilder.add("id", this.id);
+		resBuilder.add("id", this.id.longValue());
 		resBuilder.add("distance", metric.getFormattedDistance());
 		resBuilder.add("duration", metric.getFormattedDuration());
 		return resBuilder.build();

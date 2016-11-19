@@ -212,7 +212,7 @@ function aimSpot(i){
 		return;
 
 	var success = function(){
-		window.location.replace("/SeGarer.com/targetSpot.jsp?idSpot="+aimedSpot+"&lat="+currentSpot.lat+"&lon="+currentSpot.longitude);
+		window.location.replace("/SeGarer.com/targetSpot.jsp?idSpot="+aimedSpot.id+"&lat="+currentSpot.latitude+"&lon="+currentSpot.longitude);
 	}
 
 	$.ajax({
