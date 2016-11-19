@@ -41,15 +41,15 @@ public class ServletUtil {
 	public static float opportunity(Metric metric, Spot spot) {
 		float opportunity;
 		System.out.println();
-		float tmp = metric.getDuration()+((System.currentTimeMillis()-spot.getReleaseTime().getTime())/60000);
-		
+		float tmp = metric.getDuration() + ((System.currentTimeMillis() - spot.getReleaseTime().getTime()) / 60000);
+
 		System.out.println(tmp);
 		if (tmp < 1)
 			opportunity = OPPORTUNITY_MAX;
 		else if (tmp > THRESHOLD_TIME)
 			opportunity = OPPORTUNITY_MIN;
 		else
-			opportunity = 100 - tmp * (OPPORTUNITY_MAX - OPPORTUNITY_MIN) / THRESHOLD_TIME;
+			opportunity = Math.round(100 - tmp * (OPPORTUNITY_MAX - OPPORTUNITY_MIN) / THRESHOLD_TIME);
 		return opportunity;
 	}
 }
