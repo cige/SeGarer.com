@@ -20,25 +20,24 @@ public class HoldSpotServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 		if (!ServletUtil.isLogged(req)) {
 			resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
 			return;
 		}
 
-		Double longitude, latitude;
+		Long idSpot;
 
 		try {
-			longitude = Double.valueOf(req.getParameter("longitude"));
-			latitude = Double.valueOf(req.getParameter("latitude"));
+			idSpot = Long.valueOf(req.getParameter("spotId"));
 		} catch (Exception e) {
 			resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
 			return;
 		}
 
 		DaoFactory factory = DaoFactory.getInstance();
-		Spot spot = factory.getSpotDao().getSpotByCoordonates(longitude, latitude);
+		Spot spot = factory.getSpotDao().getSpotById(idSpot);
 
 		if (spot != null && spot.isFree()) {
 			factory.getSpotDao().delete(spot);

@@ -2,7 +2,7 @@
 
 function initMap() {
 	var origin = {lat: currentSpot.latitude, lng: currentSpot.longitude};
-	var destination = {lat: 39.79, lng: -86.14};
+	var destination = {lat: destination.latitude, lng: destination.longitude};
 
 	var map = new google.maps.Map(document.getElementById('map'), {
 		center: origin,
@@ -39,9 +39,45 @@ function logOut(){
 		window.location.replace("/SeGarer.com/signOut")});
 }
 
+function removeSpot(spotWasFree){
+	var success = function(){
+		alert('merci a bientot');
+	}
+
+	$.ajax({
+		url : 'holdSpot',
+		type : 'POST',
+		data : {spotId:destination.id},
+		success : success
+	});
+}
+
+function backToMenu(){
+	window.location.replace("/SeGarer.com/main.jsp");
+}
+
 function init(){
 	$('#main-container').fadeIn('slow');
 	$('#main-menu').fadeIn('slow');
 }
+
+function checkIsFree(){
+
+	var error = function(jqXHR,textStatus,errorThrown){
+		if(jqXHR.status == 493){
+			$('#modal').modal('toggle');
+		}
+	}
+
+	$.ajax({
+		url : 'isFree',
+		type : 'GET',
+		data : {spotId:destination.id},
+		error: error,
+		success: function(){consolge.log('libre')}
+	});
+}
+
+setInterval(checkIsFree(), 20000);
 
 $(document).ready(init());

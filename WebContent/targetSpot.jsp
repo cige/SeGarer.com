@@ -85,24 +85,42 @@
 
 		<div class='panel panel-info''>
 			<div class='panel-heading'>
-				Quai François Mauriac, 75013 Paris, France
-				<div class='pull-right'>Certitude: 50%</div>
+				<%=spot.getAddress().getFormattedAddress()%>
 			</div>
 			<div class='panel-body'>
 				<div id='map'></div>
 			</div>
 			<div class='panel-footer'>
-				<button type='button' onClick='' class='btn btn-warning'>La
-					place est libre, je me gare</button>
-				<button type='button' onClick='' class='btn btn-danger pull-right'>La
-					place est déjà occupée</button>
+				<button type='button' onClick='removeSpot(true)'
+					class='btn btn-warning'>La place est libre, je me gare</button>
+				<button type='button' onClick='removeSpot(false)'
+					class='btn btn-danger pull-right'>La place est déjà
+					occupée</button>
 			</div>
 		</div>
-		<button type='button' onClick='' class='btn btn-info'>
+		<button type='button' onClick='backToMain()' class='btn btn-info'>
 			<span class='glyphicon glyphicon glyphicon-chevron-left
 						'></span>Trouver
 			une autre place
 		</button>
+	</div>
+
+	<div class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-body">
+					<p>Malheureusement la place n'est plus disponible, nous vous
+						invitons à refaire une recherche</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" onClick="backToMain()"
+						class="btn btn-default">Retour à la recherche</button>
+				</div>
+			</div>
+
+		</div>
 	</div>
 
 	<script type='text/javascript'>
@@ -120,6 +138,9 @@
 		destination.longitude =
 	<%=spot.getAddress().getLongitude()%>
 		;
+		destination.id =
+	<%=spot.getId()%>
+		
 	</script>
 	<script src="js/jquery-3.1.1.min.js"></script>
 	<script src="bootstrap/js/bootstrap.min.js"></script>

@@ -7,5 +7,6 @@ public interface HttpResponseCode {
 	final int INCORRECT_PASSWORD = 496;
 	final int INCORRECT_LOGIN = 495;
 	final int INCORRECT_CREDENTIALS = 494;
+	final int NOT_FREE_SPOT = 493;
 
 }
