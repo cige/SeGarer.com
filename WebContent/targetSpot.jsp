@@ -3,6 +3,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="model.entities.User"%>
+<%@ page import="model.entities.Spot"%>
 
 
 <%
@@ -19,6 +20,19 @@
 		response.sendRedirect("connection.jsp");
 		return;
 	}
+
+	String idSpot = null, longitude = null, latitude = null;
+	idSpot = request.getParameter("idSpot");
+	longitude = request.getParameter("lon");
+	latitude = request.getParameter("lat");
+
+	if (idSpot == null || longitude == null || latitude == null) {
+		response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+		return;
+	}
+
+	Long id = Long.valueOf(idSpot);
+	Spot spot = DaoFactory.getInstance().getSpotDao().getSpotById(id);
 %>
 <!DOCTYPE html>
 <html>
@@ -69,43 +83,50 @@
 	</nav>
 	<div id="main-container" class="container-fluid">
 
-		<div id="input-container" class="input-group">
-			<span class="input-group-btn">
-				<button id="geoloc-button" title="Se géolocaliser"
-					class="btn btn-default" onClick="geolocalize()"
-					data-loading-text="<i class='fa fa-spinner fa-spin'></i>"
-					type="button">
-					<span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span>
-				</button>
-			</span> <input id="main-input" type="text" class="form-control"
-				placeholder="Indiquez votre adresse..."
-				onFocus="hideContainer(alertsContainer);hideContainer(resultsContainer)"
-				onBlur="inputBlurred()"> <span class="input-group-btn">
-				<button id='search-button' title="Rechercher une place"
-					class="btn btn-info disabled" type="button">
-					<span class="search-spot glyphicon glyphicon-log-in"
-						aria-hidden="true"></span>
-				</button>
-				<button id='release-button' title="Libérer une place"
-					class="btn btn-warning disabled" type="button">
-					<span class="release-spot glyphicon glyphicon-log-out"
-						aria-hidden="true"></span>
-				</button>
-			</span>
+		<div class='panel panel-info''>
+			<div class='panel-heading'>
+				Quai François Mauriac, 75013 Paris, France
+				<div class='pull-right'>Certitude: 50%</div>
+			</div>
+			<div class='panel-body'>
+				<div id='map'></div>
+			</div>
+			<div class='panel-footer'>
+				<button type='button' onClick='' class='btn btn-warning'>La
+					place est libre, je me gare</button>
+				<button type='button' onClick='' class='btn btn-danger pull-right'>La
+					place est déjà occupée</button>
+			</div>
 		</div>
-
-		<div id="alerts-container"></div>
-
-		<div id="results-container" class="panel-group"></div>
-
+		<button type='button' onClick='' class='btn btn-info'>
+			<span class='glyphicon glyphicon glyphicon-chevron-left
+						'></span>Trouver
+			une autre place
+		</button>
 	</div>
 
+	<script type='text/javascript'>
+		var currentSpot = {};
+		currentSpot.latitude =
+	<%=latitude%>
+		;
+		currentSpot.longitude =
+	<%=longitude%>
+		;
+		var destination = {};
+		destination.latitude =
+	<%=spot.getAddress().getLatitude()%>
+		;
+		destination.longitude =
+	<%=spot.getAddress().getLongitude()%>
+		;
+	</script>
 	<script src="js/jquery-3.1.1.min.js"></script>
 	<script src="bootstrap/js/bootstrap.min.js"></script>
-	<script src="js/main.js"></script>
+	<script src="js/targetSpot.js"></script>
 	<script
-		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQrG6Qo0cixNmFOTWgmxwEq_WFV5eiGn0&signed_in=true&libraries=places&callback=initAutocomplete"
-		defer></script>
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA-f3l4e9XyeJ6_rDns4imuqQnpmL6Lvi4&callback=initMap"
+		async defer></script>
 
 </body>
 </html>

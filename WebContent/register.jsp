@@ -63,7 +63,7 @@
 			</div>
 			<div class="form-group">
 				<a href="#" id="registerButton" type="button"
-					data-loading-text="<i class='fa fa-spinner fa-spin'></i> S'inscrire " 
+					data-loading-text="S'inscrire <i class='fa fa-spinner fa-spin'></i>" 
 					class="btn btn-info">S'inscrire</a><a href="#" id="signInButton" type="button"
 					class="btn btn-warning pull-right">Déjà un compte ?</a>
 			</div>
@@ -73,5 +73,6 @@
 	<script src="js/jquery-3.1.1.min.js"></script>
 	<script src="bootstrap/js/bootstrap.min.js"></script>
 	<script src="js/register.js"></script>
+
 </body>
 </html>

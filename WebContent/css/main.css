@@ -1,13 +1,19 @@
-body {
-	font-family: 'Raleway';
+html {
+	height: 100%;
 }
 
-.brand {
+body {
+	font-family: 'Raleway';
+	min-height: 100%;
+	position: relative;
+}
+
+.brand{
 	font-family: 'Lobster';
-	color: black;
 }
 
 #main-container {
+	top:15%;
 	max-width: 700px;
 	margin: auto;
 	display: none;
@@ -15,11 +21,11 @@ body {
 
 #results-container {
 	display: none;
-	margin-top:7px;
+	margin-top: 7px;
 }
 
 #alerts-container {
-	display:none;
+	display: none;
 	margin-top: 7px;
 }
 
@@ -30,17 +36,24 @@ body {
 }
 
 .free-spot {
-    background-image:url("../img/freespot.png");
-    height: 40px;
-    width: 40px;
+	background-image: url("../img/freespot.png");
+	height: 40px;
+	width: 40px;
 }
 
 .full-spot {
-    background:url("../img/fullspot.png");
-    height: 40px;
-    width: 40px;
+	background: url("../img/fullspot.png");
+	height: 40px;
+	width: 40px;
 }
 
-#main-menu{
+#main-menu {
+	margin-top:auto;
 	display: none;
+}
+
+#map {
+  height: 430px;
+  position: relative;
+  width: 100%;
 }

@@ -16,16 +16,16 @@ var choice = "<div class='alert alert-success'>Souhaitez vous <label for='search
 var thanks = "<div class='alert alert-warning'>Libération enregistrée ! La communauté vous remercie pour cette place de stationnement !</div>";
 var release =  "<span class='search-spot glyphicon glyphicon-log-out' aria-hidden='true'></span>";
 var search = "<span class='search-spot glyphicon glyphicon-log-in' aria-hidden='true'></span>";
-var geoloc = "<span class='glyphicon glyphicon-screenshot' aria-hidden='true'></span>"
+var geoloc = "<span class='glyphicon glyphicon-screenshot' aria-hidden='true'></span>";
 
 
-	var getSpotResult = function(spot,i){
+var getSpotResult = function(spot,i){
 	var id = "spot-banner" + i;
 	var res="<div id='"+id+"' class='panel panel-info''>";
 	res += "<div class='panel-heading'>" +spot.address + "<div class='pull-right'> Certitude: "+spot.purcentage+"%</div></div>";
 	res += "<div class='panel-body'>";
 	res += "<span class='glyphicon glyphicon glyphicon-road' aria-hidden='true'></span> ";
-	res += spot.duration+" ("+spot.distance+")<button type='button' class='btn btn-default pull-right'>";
+	res += spot.duration+" ("+spot.distance+")<button type='button' onClick='aimSpot("+i+")' class='btn btn-default pull-right'>";
 	res += "J'y vais";
 	if(spot.intersted > 0)
 		res+="<span title='"+spot.intersted+" utilisateurs sont intéressés par cette place' class='badge'>"+spot.intersted+"</span>";
@@ -197,12 +197,31 @@ function resetApp(){
 	initAlerts();
 }
 
-function logOut(){
-	window.location.replace("/SeGarer.com/signOut");
-}
-
 function createRequestForReverseGeocoding(lat,lon){
 	return "https://maps.googleapis.com/maps/api/geocode/json?latlng="+lat+","+lon+"&key=AIzaSyDaDyG8ylVLCq-sjdbLeBn07LtN81zWETo";
+}
+
+function aimSpot(i){
+	
+	if(currentSpot == null)
+		return;
+	if(resultsSpots == null)
+		return;
+	aimedSpot = resultsSpots[i];
+	if(aimedSpot == null)
+		return;
+
+	var success = function(){
+		window.location.replace("/SeGarer.com/targetSpot.jsp?idSpot="+aimedSpot+"&lat="+currentSpot.lat+"&lon="+currentSpot.longitude);
+	}
+
+	$.ajax({
+		url : 'targetSpot',
+		type : 'POST',
+		data : {spotId:aimedSpot.id},
+		success : success
+	});
+
 }
 
 function geolocalize(){
@@ -302,8 +321,9 @@ function findSpots(){
 				resetAllButtons();
 				enableAllButtons();
 			}
-			else
+			else{
 				displayResults();
+			}
 		},1000);
 	}
 
@@ -326,6 +346,13 @@ function init(){
 	$('#main-container').fadeIn('slow',initAlerts());
 	$('#main-menu').fadeIn('slow');
 }
+
+function logOut(){
+	$('#main-container').fadeOut('slow');
+	$('#main-menu').fadeOut('slow',function(){
+		window.location.replace("/SeGarer.com/signOut")});
+}
+
 
 $(document).ready(init());
 

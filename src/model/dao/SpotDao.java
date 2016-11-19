@@ -42,6 +42,11 @@ public class SpotDao extends Dao<Spot> {
 		List<Spot> list = query.list();
 		return list;
 	}
+	
+	public Spot getSpotById(Long idSpot){
+		//TODO franck
+		return null;
+	}
 
 	public Spot findSpotByAddress(Address addr) {
 		Query query = session.createQuery("From Spot s where s.address.longitude=:long and s.address.latitude=:lat");

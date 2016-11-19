@@ -14,7 +14,7 @@ public class QuartzListener
 implements ServletContextListener{
 
 	private final static boolean BOTS = false;
-	private final static boolean PURGE = true;
+	private final static boolean PURGE = false;
 
 	Scheduler scheduler = null;
 

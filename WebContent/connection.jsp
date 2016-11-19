@@ -34,9 +34,7 @@
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
 			<div class="navbar-header brand">
-				<h2>
-					SeGarer.com
-				</h2>
+				<h2>SeGarer.com</h2>
 			</div>
 		</div>
 	</nav>
@@ -57,10 +55,10 @@
 			</div>
 			<div class="form-group">
 				<a href="#" id="signInButton" type="button"
-					data-loading-text="<i class='fa fa-spinner fa-spin'></i> Se connecter"
-					class="btn btn-info">Se connecter</a> <a href="#" id="registerButton"
-					type="button" class="btn btn-warning pull-right">Pas encore
-					inscrit ?</span>
+					data-loading-text=" Se connecter <i class='fa fa-spinner fa-spin'></i>"
+					class="btn btn-info">Se connecter</a> <a href="#"
+					id="registerButton" type="button"
+					class="btn btn-warning pull-right">Pas encore inscrit ?</span>
 				</a>
 			</div>
 		</div>

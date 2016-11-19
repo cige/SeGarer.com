@@ -4,7 +4,7 @@ $('#signInButton').on('click',function() {
 
 $('#registerButton').on('click',function() {
 	$(this).button('loading');
-	signUp();
+	setTimeout(signUp, 1000);
 });
 
 function signUp(){
@@ -50,7 +50,6 @@ function signUp(){
 	}
 
 	var success = function(){
-		$('#registerButton').button('reset');
 		$('#form-container').fadeOut('slow',function(){window.location.replace("/SeGarer.com/main.jsp");});
 	}
 

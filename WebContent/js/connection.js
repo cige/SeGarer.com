@@ -1,7 +1,7 @@
 $('#signInButton').on('click',function() {
 	var $btn = $(this);
 	$btn.button('loading');
-	signIn();
+	setTimeout(signIn, 1000);
 });
 
 $('#registerButton').on('click',function() {
@@ -35,7 +35,6 @@ function signIn(){
 	}
 
 	var success = function(){
-		$('#signInButton').button('reset');
 		$('#form-container').fadeOut('slow',function(){window.location.replace("/SeGarer.com/main.jsp");});
 	}
 
@@ -69,7 +68,6 @@ function signIn(){
 
 function display(){
 	$('#form-container').fadeIn('slow');
-	$('[data-toggle="tooltip"]').tooltip();
 }
 
 $(document).ready(display());
