@@ -22,12 +22,10 @@ public class SpotDao extends Dao<Spot> {
 	/**
 	 * Return a list with at most n spots.
 	 */
-	public List<Spot> findClosestSposts(Double latitude,Double longitude, float dist, int n) {
+	public List<Spot> findClosestSposts(Double latitude, Double longitude, float dist, int n) {
 
-		Double longMin = longitude
-				- (dist / Math.abs(Math.cos(Math.toRadians(latitude * 69))));
-		Double longMax = longitude
-				+ (dist / Math.abs(Math.cos(Math.toRadians(latitude * 69))));
+		Double longMin = longitude - (dist / Math.abs(Math.cos(Math.toRadians(latitude * 69))));
+		Double longMax = longitude + (dist / Math.abs(Math.cos(Math.toRadians(latitude * 69))));
 		Double latMin = latitude - (dist / 69);
 		Double latMax = latitude + (dist / 69);
 
@@ -42,9 +40,9 @@ public class SpotDao extends Dao<Spot> {
 		List<Spot> list = query.list();
 		return list;
 	}
-	
-	public Spot getSpotById(Long idSpot){
-		//TODO franck
+
+	public Spot getSpotById(Long idSpot) {
+		// TODO franck
 		return null;
 	}
 
@@ -68,4 +66,7 @@ public class SpotDao extends Dao<Spot> {
 		return (Spot) query.uniqueResult();
 	}
 
+	public Spot getSpotFromId(long id) {
+		return (Spot) session.get(Spot.class, id);
+	}
 }

@@ -6,6 +6,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.catalina.connector.Request;
 
 import model.dao.DaoFactory;
 import model.dao.SpotDao;
@@ -15,7 +18,7 @@ import model.entities.User;
 
 public class ReleaseSpotServlet extends HttpServlet {
 	public static final String VIEW_SUCCESS = "/main.jsp";
-
+	public static final long MINIMUM_RELEASE=5*60*1000;
 	/**
 	 * 
 	 */
@@ -29,7 +32,18 @@ public class ReleaseSpotServlet extends HttpServlet {
 			return;
 		}
 
-		User user = (User) req.getSession(false).getAttribute("user");
+		HttpSession session = req.getSession();
+		User user = (User) session.getAttribute("user");
+		
+		long lastRelease = 0;
+		Object o = session.getAttribute("lastRelease");
+		if (o != null)
+			lastRelease = (long) o;
+		
+		if (System.currentTimeMillis() - lastRelease < MINIMUM_RELEASE) {
+			resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+			return;
+		}
 
 		Double longitude;
 		Double latitude;
@@ -52,6 +66,9 @@ public class ReleaseSpotServlet extends HttpServlet {
 			spot = new Spot(address, user);
 		spot.setFree(true);
 		spotDao.save(spot);
+		lastRelease = System.currentTimeMillis();
+		session.setAttribute("lastRelease", lastRelease);
+
 		resp.setStatus(HttpServletResponse.SC_ACCEPTED);
 	}
 
