@@ -32,7 +32,7 @@
 		<div class="container-fluid">
 			<div class="navbar-header brand">
 				<h2>
-					SeGarer.com
+					<strong>SeGarer</strong>.com
 				</h2>
 			</div>
 		</div>

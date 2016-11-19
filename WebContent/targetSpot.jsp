@@ -57,8 +57,10 @@
 <body>
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
-			<div class="navbar-header">
-				<h2>SeGarer.com</h2>
+			<div class="navbar-header brand">
+				<h2>
+					<strong>SeGarer</strong>.com
+				</h2>
 			</div>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
@@ -109,7 +111,7 @@
 		<div class="modal-dialog">
 
 			<!-- Modal content-->
-			<div class="modal-content">
+			<div id="modal" class="modal-content">
 				<div class="modal-body">
 					<p>Malheureusement la place n'est plus disponible, nous vous
 						invitons à refaire une recherche</p>

@@ -43,8 +43,10 @@
 <body>
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
-			<div class="navbar-header">
-				<h2>SeGarer.com</h2>
+			<div class="navbar-header brand">
+				<h2>
+					<strong>SeGarer</strong>.com
+				</h2>
 			</div>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
