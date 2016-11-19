@@ -3,6 +3,8 @@ package model.entities;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+import api.GoogleAPI;
+
 @Embeddable
 public class Address {
 
@@ -23,6 +25,11 @@ public class Address {
 		this.longitude = longitude;
 		this.latitude = latitude;
 		this.formattedAddress = formattedAddress;
+	}
+
+	public Address(Double longitude, Double latitude) {
+		this.longitude = longitude;
+		this.latitude = latitude;
 	}
 
 	public String getFormattedAddress() {
@@ -52,5 +59,9 @@ public class Address {
 	@Override
 	public String toString() {
 		return formattedAddress + "(" + longitude + ", " + latitude + ")";
+	}
+
+	public void geocode() {
+		this.formattedAddress = GoogleAPI.getFormattedAddress(latitude, longitude);
 	}
 }

@@ -6,7 +6,6 @@ import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-import api.GoogleAPI;
 import model.dao.DaoFactory;
 import model.entities.Address;
 import model.entities.Spot;
@@ -24,13 +23,12 @@ public class CreateSpotsJob implements Job {
 		Random rand = new Random();
 		Double longitude = new Double(((maxLong - minLong) * rand.nextDouble()) + minLong);
 		Double latitude = new Double(((maxLat - minLat) * rand.nextDouble()) + minLat);
-		String formattedAddr = GoogleAPI.getFormattedAddress(latitude, longitude);
-		Address address = new Address(longitude, latitude, formattedAddr);
+
+		Address address = new Address(longitude, latitude);
 
 		DaoFactory factory = DaoFactory.getInstance();
 		User usr = factory.getUserDao().makeRandomUser();
 		Spot spot = new Spot(address, usr);
 		factory.getSpotDao().save(spot);
 	}
-
 }
