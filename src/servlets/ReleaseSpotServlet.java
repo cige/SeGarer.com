@@ -18,7 +18,7 @@ import model.entities.User;
 
 public class ReleaseSpotServlet extends HttpServlet {
 	public static final String VIEW_SUCCESS = "/main.jsp";
-	public static final long MINIMUM_RELEASE=5*60*1000;
+	public static final long MINIMUM_RELEASE = 5 * 60 * 1000;
 	/**
 	 * 
 	 */
@@ -34,12 +34,12 @@ public class ReleaseSpotServlet extends HttpServlet {
 
 		HttpSession session = req.getSession();
 		User user = (User) session.getAttribute("user");
-		
+
 		long lastRelease = 0;
 		Object o = session.getAttribute("lastRelease");
 		if (o != null)
 			lastRelease = (long) o;
-		
+
 		if (System.currentTimeMillis() - lastRelease < MINIMUM_RELEASE) {
 			resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
 			return;

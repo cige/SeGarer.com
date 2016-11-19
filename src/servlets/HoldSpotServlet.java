@@ -37,7 +37,7 @@ public class HoldSpotServlet extends HttpServlet {
 		}
 
 		DaoFactory factory = DaoFactory.getInstance();
-		Spot spot = factory.getSpotDao().getSpotById(idSpot);
+		Spot spot = factory.getSpotDao().getSpotFromId(idSpot);
 
 		if (spot != null && spot.isFree()) {
 			factory.getSpotDao().delete(spot);

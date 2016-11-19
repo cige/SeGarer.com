@@ -37,7 +37,7 @@ public class TargetSpotServlet extends HttpServlet {
 		}
 
 		DaoFactory factory = DaoFactory.getInstance();
-		Spot spot = factory.getSpotDao().getSpotById(idSpot);
+		Spot spot = factory.getSpotDao().getSpotFromId(idSpot);
 
 		if (spot != null && spot.isFree()) {
 			spot.incremenInterestUsers();
