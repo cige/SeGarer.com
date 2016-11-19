@@ -23,12 +23,14 @@ public class CreateSpotsJob implements Job {
 		Random rand = new Random();
 		Double longitude = new Double(((maxLong - minLong) * rand.nextDouble()) + minLong);
 		Double latitude = new Double(((maxLat - minLat) * rand.nextDouble()) + minLat);
+		
+		System.out.println(longitude+" "+latitude);
 
 		Address address = new Address(longitude, latitude);
 
 		DaoFactory factory = DaoFactory.getInstance();
-		User usr = factory.getUserDao().makeRandomUser();
-		Spot spot = new Spot(address, usr);
+		//User usr = factory.getUserDao().makeRandomUser();
+		Spot spot = new Spot(address, null);
 		factory.getSpotDao().save(spot);
 	}
 }

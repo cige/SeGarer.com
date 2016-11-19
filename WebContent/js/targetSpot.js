@@ -34,6 +34,8 @@ function initMap() {
 
 /** Others Methods **/
 
+var routineId;
+
 function logOut(){
 	$('#main-container').fadeOut('slow');
 	$('#main-menu').fadeOut('slow',function(){
@@ -42,29 +44,35 @@ function logOut(){
 
 function removeSpot(spotWasFree){
 	var success = function(){
+		stopRoutine();
 		alert('merci a bientot');
 	}
 
 	$.ajax({
 		url : 'holdSpot',
 		type : 'POST',
-		data : {spotId:destination.id},
+		data : {spotId:aimSpot.id},
 		success : success
 	});
 }
 
-function backToMenu(){
-	window.location.replace("/SeGarer.com/main.jsp");
+function backToMain(){
+	stopRoutine();
+	window.location.replace("/SeGarer.com/main.jsp?longitude="+currentSpot.longitude+"&latitude="+currentSpot.latitude);
 }
 
 function init(){
 	$('#main-container').fadeIn('slow');
 	$('#main-menu').fadeIn('slow');
-	setInterval(routine, 10000);
+	routineId = setInterval(routine, 10000);
 }
 
 function routine(){
 	checkIsFree();
+}
+
+function stopRoutine(){
+	clearInterval(routineId);
 }
 
 function checkIsFree(){

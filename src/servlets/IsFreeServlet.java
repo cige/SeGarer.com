@@ -38,7 +38,7 @@ public class IsFreeServlet extends HttpServlet {
 		Spot spot = DaoFactory.getInstance().getSpotDao().getSpotFromId(id);
 
 		if (spot != null && spot.isFree())
-		resp.setStatus(HttpServletResponse.SC_ACCEPTED);
+			resp.setStatus(HttpServletResponse.SC_ACCEPTED);
 		else
 			resp.setStatus(HttpResponseCode.NOT_FREE_SPOT);
 	}

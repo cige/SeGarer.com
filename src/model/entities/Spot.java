@@ -149,7 +149,6 @@ public class Spot {
 		resBuilder.add("latitude", this.address.getLatitude());
 		resBuilder.add("address", this.address.getFormattedAddress());
 
-		resBuilder.add("user", this.originUser.getPseudo());
 		resBuilder.add("intersted", interestedUsers);
 		resBuilder.add("purcentage", purcentage);
 		resBuilder.add("id", this.id.longValue());

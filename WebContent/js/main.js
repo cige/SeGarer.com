@@ -12,7 +12,7 @@ var gift = "<span class='glyphicon glyphicon-gift' aria-hidden='true'></span>";
 var geoloc = "<span class='glyphicon glyphicon-screenschot' aria-hidden='true'></span>";
 var welcome = "<div class='alert alert-success'>Pour commencer à utiliser l'application, veuillez <label for='main-input'><mark>saisir votre adresse actuelle</mark></label> ou utilisez la <label for='geoloc-button'><mark>géolocalisation</mark></label>";
 var noresults = "<div class='alert alert-success'>Malheureusement, aucune place n'a été trouvée près de votre localisation, essayez de <label for='search-button'><mark>relancer la recherche</mark></label> dans quelques instants ...";
-var choice = "<div class='alert alert-success'>Souhaitez vous <label for='search-button'><mark>trouver une place</mark></label> ou bien <label for='release-button'><mark>libérer une place</mark></label> ?";
+var choice = "<div class='alert alert-success'>Souhaitez vous <label for='search-button'><mark>trouver une place</mark></label> ou bien <label for='release-button'><mark>signaler une place libre</mark></label> ?";
 var thanks = "<div class='alert alert-warning'>Libération enregistrée ! La communauté vous remercie pour cette place de stationnement !</div>";
 var release =  "<span class='search-spot glyphicon glyphicon-log-out' aria-hidden='true'></span>";
 var search = "<span class='search-spot glyphicon glyphicon-log-in' aria-hidden='true'></span>";
@@ -26,9 +26,11 @@ var getSpotResult = function(spot,i){
 	res += "<div class='panel-body'>";
 	res += "<span class='glyphicon glyphicon glyphicon-road' aria-hidden='true'></span> ";
 	res += spot.duration+" ("+spot.distance+")<button type='button' onClick='aimSpot("+i+")' class='btn btn-default pull-right'>";
-	res += "J'y vais";
-	if(spot.intersted > 0)
-		res+="<span title='"+spot.intersted+" utilisateurs sont intéressés par cette place' class='badge'>"+spot.intersted+"</span>";
+	res += "J'y vais ";
+	if(spot.intersted == 1)
+		res+="<span title=\"Quelqu'un est déjà sur le coup!\" class='badge'>"+spot.intersted+"</span>";
+	else if(spot.intersted > 1)
+		res+="<span title='Déjà "+spot.intersted+" utilisateurs intéressés, faites vite!' class='badge'>"+spot.intersted+"</span>";
 	res+="</button></div></div>";
 	return res;
 }
@@ -202,7 +204,7 @@ function createRequestForReverseGeocoding(lat,lon){
 }
 
 function aimSpot(i){
-	
+
 	if(currentSpot == null)
 		return;
 	if(resultsSpots == null)
@@ -343,7 +345,30 @@ function findSpots(){
 }
 
 function init(){
-	$('#main-container').fadeIn('slow',initAlerts());
+	var fun = function(){
+		if(currentSpot == null){
+			initAlerts();
+			return;
+		}
+		var request = createRequestForReverseGeocoding(currentSpot.latitude,currentSpot.longitude);
+		$.ajax({
+			url:request,
+			type:"GET",
+			dataType:"json",
+			success:function(data){
+				if(data.results.length == 0){
+					$("#main-input").val(currentSpot.longitude+","+currentSpot.latitude);
+				}
+				else{
+					currentSpot.address = data.results[0].formatted_address;
+					$("#main-input").val(currentSpot.address);
+				}
+				findSpots();
+			}
+		});
+
+	}
+	$('#main-container').fadeIn('slow',fun);
 	$('#main-menu').fadeIn('slow');
 }
 

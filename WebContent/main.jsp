@@ -105,6 +105,21 @@
 	<script src="js/jquery-3.1.1.min.js"></script>
 	<script src="bootstrap/js/bootstrap.min.js"></script>
 	<script src="js/main.js"></script>
+	<script type="text/javascript">
+		
+	<%String longitude = request.getParameter("longitude");
+			String latitude = request.getParameter("latitude");
+			if (longitude != null && latitude != null) {%>
+		currentSpot = {};
+		currentSpot.longitude =
+	<%=longitude%>
+		;
+		currentSpot.latitude =
+	<%=latitude%>
+		;
+	<%}%>
+		
+	</script>
 	<script
 		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQrG6Qo0cixNmFOTWgmxwEq_WFV5eiGn0&signed_in=true&libraries=places&callback=initAutocomplete"
 		defer></script>

@@ -33,6 +33,10 @@
 
 	Long id = Long.valueOf(idSpot);
 	Spot spot = DaoFactory.getInstance().getSpotDao().getSpotFromId(id);
+	
+	if(spot == null){
+		response.sendRedirect("main.jsp");
+	}
 %>
 <!DOCTYPE html>
 <html>
