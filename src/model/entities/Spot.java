@@ -40,12 +40,12 @@ public class Spot {
 	private boolean isFree;
 
 	@OneToOne
-	@Cascade(CascadeType.MERGE)
+	@Cascade({CascadeType.MERGE, CascadeType.SAVE_UPDATE})
 	@JoinColumn(name = "origin_user")
 	private User originUser;
 
 	@ManyToOne
-	@Cascade(CascadeType.MERGE)
+	@Cascade({CascadeType.MERGE, CascadeType.SAVE_UPDATE})
 	@JoinColumn(name = "id_horodator")
 	private Horodator horodator;
 
