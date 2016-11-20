@@ -46,10 +46,9 @@ public class SignUpServlet extends HttpServlet {
 			response.sendError(HttpResponseCode.PSEUDO_ALREADY_USED);
 			return;
 		}
-
 		// Create the new user object
 
-		User user = new User(email, pseudo, password);
+		User user = new User(email, pseudo, ServletUtil.cryptPassword(password));
 
 		// Push it in DB
 

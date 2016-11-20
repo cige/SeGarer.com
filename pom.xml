@@ -67,6 +67,12 @@
 			<version>1.0.4</version>
 		</dependency>
 
+	<!-- https://mvnrepository.com/artifact/de.svenkubiak/jBCrypt -->
+	<dependency>
+    	<groupId>de.svenkubiak</groupId>
+    	<artifactId>jBCrypt</artifactId>
+    	<version>0.4</version>
+	</dependency>
 
 
 	</dependencies>

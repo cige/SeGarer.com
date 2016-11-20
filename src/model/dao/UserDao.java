@@ -6,6 +6,7 @@ import org.hibernate.Query;
 
 import model.entities.User;
 import model.entities.Vehicle;
+import servlets.ServletUtil;
 
 public class UserDao extends Dao<User> {
 
@@ -69,7 +70,7 @@ public class UserDao extends Dao<User> {
 		int id = rand.nextInt(100);
 		String login = BASE_LOGIN + id;
 		String email = login + BASE_DOMAINE;
-		User user = new User(email, login, BASE_PASSWORD);
+		User user = new User(email, login, ServletUtil.cryptPassword(BASE_PASSWORD));
 		user.setVehicle(COMMON_CAR);
 		return user;
 	}

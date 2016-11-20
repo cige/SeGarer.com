@@ -24,8 +24,8 @@ public class SpotDao extends Dao<Spot> {
 	 */
 	public List<Spot> findClosestSposts(Double latitude, Double longitude, float dist, int n) {
 
-		Double longMin = longitude - (dist / Math.abs(Math.cos(Math.toRadians(latitude * 69))));
-		Double longMax = longitude + (dist / Math.abs(Math.cos(Math.toRadians(latitude * 69))));
+		Double longMin = longitude - (dist / Math.abs(Math.cos(Math.toRadians(latitude))*69));
+		Double longMax = longitude + (dist / Math.abs(Math.cos(Math.toRadians(latitude))*69));
 		Double latMin = latitude - (dist / 69);
 		Double latMax = latitude + (dist / 69);
 

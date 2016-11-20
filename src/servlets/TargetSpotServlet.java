@@ -21,7 +21,6 @@ public class TargetSpotServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
 		if (!ServletUtil.isLogged(req)) {
 			resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
 			return;
@@ -30,8 +29,9 @@ public class TargetSpotServlet extends HttpServlet {
 		Long idSpot;
 
 		try {
-			idSpot = Long.valueOf(req.getParameter("spotId"));
+			idSpot = Long.valueOf(req.getParameter("idSpot"));
 		} catch (Exception e) {
+			e.printStackTrace();
 			resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
 			return;
 		}

@@ -58,7 +58,6 @@ public class FindSpotsServlet extends HttpServlet {
 			Spot spot = list.get(i);
 			Metric metric = GoogleAPI.distanceToSpot(new Address(longitude, latitude), spot.getAddress());
 			float purcentage = ServletUtil.opportunity(metric, spot);
-			
 			spot.getAddress().geocode();
 			spots.add(spot.toJson(metric, purcentage));
 		}

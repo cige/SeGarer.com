@@ -29,8 +29,8 @@ public class CreateSpotsJob implements Job {
 		Address address = new Address(longitude, latitude);
 
 		DaoFactory factory = DaoFactory.getInstance();
-		//User usr = factory.getUserDao().makeRandomUser();
-		Spot spot = new Spot(address, null);
+		User usr = factory.getUserDao().makeRandomUser();
+		Spot spot = new Spot(address, usr);
 		factory.getSpotDao().save(spot);
 	}
 }

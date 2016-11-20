@@ -45,7 +45,7 @@ public class SignInServlet extends HttpServlet {
 		}
 
 		// check password
-		if (!user.getPassword().equals(password)) {
+		if (!ServletUtil.isMatched(password, user.getPassword())) {
 			response.sendError(HttpResponseCode.INCORRECT_PASSWORD);
 			return;
 		}
